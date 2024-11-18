@@ -1,3 +1,5 @@
 rich      # For colorful terminal output
 pytest    # For testing
 beautifulsoup4
+lxml
+man2html
