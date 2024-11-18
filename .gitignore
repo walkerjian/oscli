@@ -1,1 +1,33 @@
 node_modules/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+
+# Editor and IDE files
+*.swp
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+
+# Test and coverage files
+*.coverage
+*.cover
+.coverage.*
+.cache/
+*.log
+*.out
+*.log.*
+
+# Packages
+*.egg
+*.egg-info/
+dist/
+build/
+*.wheel
