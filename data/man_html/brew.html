@@ -1,0 +1,3428 @@
+BREW(1)                     General Commands Manual                    BREW(1)
+
+NNAAMMEE
+       brew - The Missing Package Manager for macOS (or Linux)
+
+SSYYNNOOPPSSIISS
+       bbrreeww ----vveerrssiioonn
+       bbrreeww _c_o_m_m_a_n_d [----vveerrbboossee|--vv] [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a] ...
+
+DDEESSCCRRIIPPTTIIOONN
+       Homebrew is the easiest and most flexible way to install the UNIX tools
+       Apple didn’t include with macOS. It can also install software not
+       packaged for your Linux distribution without requiring ssuuddoo.
+
+TTEERRMMIINNOOLLOOGGYY
+       ffoorrmmuullaa
+              Homebrew package definition that builds from upstream sources
+
+       ccaasskk   Homebrew package definition that installs macOS native
+              applications
+
+       pprreeffiixx path in which Homebrew is installed, e.g. //uussrr//llooccaall
+
+       kkeegg    installation destination directory of a given ffoorrmmuullaa version,
+              e.g. //uussrr//llooccaall//CCeellllaarr//ffoooo//00..11
+
+       rraacckk   directory containing one or more versioned kkeeggss, e.g.
+              //uussrr//llooccaall//CCeellllaarr//ffoooo
+
+       kkeegg--oonnllyy
+              a ffoorrmmuullaa is _k_e_g_-_o_n_l_y if it is not symlinked into Homebrew’s
+              prefix
+
+       oopptt pprreeffiixx
+              a symlink to the active version of a kkeegg, e.g.
+              //uussrr//llooccaall//oopptt//ffoooo
+
+       CCeellllaarr directory containing one or more named rraacckkss, e.g.
+              //uussrr//llooccaall//CCeellllaarr
+
+       CCaasskkrroooomm
+              directory containing one or more named ccaasskkss, e.g.
+              //uussrr//llooccaall//CCaasskkrroooomm
+
+       eexxtteerrnnaall ccoommmmaanndd
+              bbrreeww subcommand defined outside of the Homebrew/brew GitHub
+              repository
+
+       ttaapp    directory (and usually Git repository) of ffoorrmmuullaaee, ccaasskkss and/or
+              eexxtteerrnnaall ccoommmmaannddss
+
+       bboottttllee pre-built kkeegg poured into a rraacckk of the CCeellllaarr instead of
+              building from upstream sources
+
+EESSSSEENNTTIIAALL CCOOMMMMAANNDDSS
+       For the full command list, see the _C_O_M_M_A_N_D_S section.
+
+       With ----vveerrbboossee or ----ddeebbuugg, many commands print extra debugging
+       information. Note that these options should only appear after a
+       command.
+
+       Some command behaviour can be customised with environment variables;
+       see the _E_N_V_I_R_O_N_M_E_N_T section.
+
+   iinnssttaallll _f_o_r_m_u_l_a
+       Install _f_o_r_m_u_l_a.
+
+       _f_o_r_m_u_l_a is usually the name of the formula to install, but it has other
+       syntaxes which are listed in the _S_P_E_C_I_F_Y_I_N_G _F_O_R_M_U_L_A_E section.
+
+   uunniinnssttaallll _f_o_r_m_u_l_a
+       Uninstall _f_o_r_m_u_l_a.
+
+   lliisstt
+       List all installed formulae.
+
+   sseeaarrcchh [_t_e_x_t|//_t_e_x_t//]
+       Perform a substring search of cask tokens and formula names for _t_e_x_t.
+       If _t_e_x_t is flanked by slashes, it is interpreted as a regular
+       expression. The search for _t_e_x_t is extended online to hhoommeebbrreeww//ccoorree and
+       hhoommeebbrreeww//ccaasskk. If no search term is provided, all locally available
+       formulae are listed.
+
+CCOOMMMMAANNDDSS
+   aannaallyyttiiccss [_s_u_b_c_o_m_m_a_n_d]
+       Control Homebrew’s anonymous aggregate user behaviour analytics. Read
+       more at <https://docs.brew.sh/Analytics>.
+
+       bbrreeww aannaallyyttiiccss [ssttaattee]
+              Display the current state of Homebrew’s analytics.
+
+       bbrreeww aannaallyyttiiccss (oonn|ooffff)
+              Turn Homebrew’s analytics on or off respectively.
+
+   aauuttoorreemmoovvee [----ddrryy--rruunn]
+       Uninstall formulae that were only installed as a dependency of another
+       formula and are now no longer needed.
+
+       --nn, ----ddrryy--rruunn
+              List what would be uninstalled, but do not actually uninstall
+              anything.
+
+   ccaasskkss
+       List all locally installable casks including short names.
+
+   cclleeaannuupp [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a|_c_a_s_k ...]
+       Remove stale lock files and outdated downloads for all formulae and
+       casks, and remove old versions of installed formulae. If arguments are
+       specified, only do this for the given formulae and casks. Removes all
+       downloads more than 120 days old. This can be adjusted with
+       HHOOMMEEBBRREEWW__CCLLEEAANNUUPP__MMAAXX__AAGGEE__DDAAYYSS.
+
+       ----pprruunnee
+              Remove all cache files older than specified _d_a_y_s. If you want to
+              remove everything, use ----pprruunnee==aallll.
+
+       --nn, ----ddrryy--rruunn
+              Show what would be removed, but do not actually remove anything.
+
+       --ss, ----ssccrruubb
+              Scrub the cache, including downloads for even the latest
+              versions. Note that downloads for any installed formulae or
+              casks will still not be deleted. If you want to delete those
+              too: rrmm --rrff ""$$((bbrreeww ----ccaacchhee))""
+
+       ----pprruunnee--pprreeffiixx
+              Only prune the symlinks and directories from the prefix and
+              remove no other files.
+
+   ccoommmmaanndd _c_o_m_m_a_n_d [...]
+       Display the path to the file being used when invoking bbrreeww _c_m_d.
+
+   ccoommmmaannddss [----qquuiieett] [----iinncclluuddee--aalliiaasseess]
+       Show lists of built-in and external commands.
+
+       --qq, ----qquuiieett
+              List only the names of commands without category headers.
+
+       ----iinncclluuddee--aalliiaasseess
+              Include aliases of internal commands.
+
+   ccoommpplleettiioonnss [_s_u_b_c_o_m_m_a_n_d]
+       Control whether Homebrew automatically links external tap shell
+       completion files. Read more at <https://docs.brew.sh/Shell-Completion>.
+
+       bbrreeww ccoommpplleettiioonnss [ssttaattee]
+              Display the current state of Homebrew’s completions.
+
+       bbrreeww ccoommpplleettiioonnss (lliinnkk|uunnlliinnkk)
+              Link or unlink Homebrew’s completions.
+
+   ccoonnffiigg,, ----ccoonnffiigg
+       Show Homebrew and system configuration info useful for debugging. If
+       you file a bug report, you will be required to provide this
+       information.
+
+   ddeeppss [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a|_c_a_s_k ...]
+       Show dependencies for _f_o_r_m_u_l_a. When given multiple formula arguments,
+       show the intersection of dependencies for each formula. By default,
+       ddeeppss shows all required and recommended dependencies.
+
+       If any version of each formula argument is installed and no other
+       options are passed, this command displays their actual runtime
+       dependencies (similar to bbrreeww lliinnkkaaggee), which may differ from the
+       current versions’ stated dependencies if the installed versions are
+       outdated.
+
+       _N_o_t_e_: ----mmiissssiinngg and ----sskkiipp--rreeccoommmmeennddeedd have precedence over
+       ----iinncclluuddee--**.
+
+       --nn, ----ttooppoollooggiiccaall
+              Sort dependencies in topological order.
+
+       --11, ----ddiirreecctt
+              Show only the direct dependencies declared in the formula.
+
+       ----uunniioonn
+              Show the union of dependencies for multiple _f_o_r_m_u_l_a, instead of
+              the intersection.
+
+       ----ffuullll--nnaammee
+              List dependencies by their full name.
+
+       ----iinncclluuddee--bbuuiilldd
+              Include ::bbuuiilldd dependencies for _f_o_r_m_u_l_a.
+
+       ----iinncclluuddee--ooppttiioonnaall
+              Include ::ooppttiioonnaall dependencies for _f_o_r_m_u_l_a.
+
+       ----iinncclluuddee--tteesstt
+              Include ::tteesstt dependencies for _f_o_r_m_u_l_a (non-recursive).
+
+       ----sskkiipp--rreeccoommmmeennddeedd
+              Skip ::rreeccoommmmeennddeedd dependencies for _f_o_r_m_u_l_a.
+
+       ----iinncclluuddee--rreeqquuiirreemmeennttss
+              Include requirements in addition to dependencies for _f_o_r_m_u_l_a.
+
+       ----ttrreeee Show dependencies as a tree. When given multiple formula
+              arguments, show individual trees for each formula.
+
+       ----ggrraapphh
+              Show dependencies as a directed graph.
+
+       ----ddoott  Show text-based graph description in DOT format.
+
+       ----aannnnoottaattee
+              Mark any build, test, implicit, optional, or recommended
+              dependencies as such in the output.
+
+       ----iinnssttaalllleedd
+              List dependencies for formulae that are currently installed. If
+              _f_o_r_m_u_l_a is specified, list only its dependencies that are
+              currently installed.
+
+       ----mmiissssiinngg
+              Show only missing dependencies.
+
+       ----eevvaall--aallll
+              Evaluate all available formulae and casks, whether installed or
+              not, to list their dependencies.
+
+       ----ffoorr--eeaacchh
+              Switch into the mode used by the ----eevvaall--aallll option, but only
+              list dependencies for each provided _f_o_r_m_u_l_a, one formula per
+              line. This is used for debugging the ----iinnssttaalllleedd/----eevvaall--aallll
+              display mode.
+
+       ----HHEEAADD Show dependencies for HEAD version instead of stable version.
+
+       ----ooss   Show dependencies for the given operating system.
+
+       ----aarrcchh Show dependencies for the given CPU architecture.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+   ddeesscc [_o_p_t_i_o_n_s] _f_o_r_m_u_l_a|_c_a_s_k|_t_e_x_t|//_r_e_g_e_x// [...]
+       Display _f_o_r_m_u_l_a’s name and one-line description. The cache is created
+       on the first search, making that search slower than subsequent ones.
+
+       --ss, ----sseeaarrcchh
+              Search both names and descriptions for _t_e_x_t. If _t_e_x_t is flanked
+              by slashes, it is interpreted as a regular expression.
+
+       --nn, ----nnaammee
+              Search just names for _t_e_x_t. If _t_e_x_t is flanked by slashes, it is
+              interpreted as a regular expression.
+
+       --dd, ----ddeessccrriippttiioonn
+              Search just descriptions for _t_e_x_t. If _t_e_x_t is flanked by
+              slashes, it is interpreted as a regular expression.
+
+       ----eevvaall--aallll
+              Evaluate all available formulae and casks, whether installed or
+              not, to search their descriptions. Implied if HHOOMMEEBBRREEWW__EEVVAALL__AALLLL
+              is set.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+   ddeevveellooppeerr [_s_u_b_c_o_m_m_a_n_d]
+       Control Homebrew’s developer mode. When developer mode is enabled, bbrreeww
+       uuppddaattee will update Homebrew to the latest commit on the mmaasstteerr branch
+       instead of the latest stable version along with some other behaviour
+       changes.
+
+       bbrreeww ddeevveellooppeerr [ssttaattee]
+              Display the current state of Homebrew’s developer mode.
+
+       bbrreeww ddeevveellooppeerr (oonn|ooffff)
+              Turn Homebrew’s developer mode on or off respectively.
+
+   ddooccss
+       Open Homebrew’s online documentation at <https://docs.brew.sh> in a
+       browser.
+
+   ddooccttoorr,, ddrr [----lliisstt--cchheecckkss] [----aauuddiitt--ddeebbuugg] [_d_i_a_g_n_o_s_t_i_c___c_h_e_c_k ...]
+       Check your system for potential problems. Will exit with a non-zero
+       status if any potential problems are found.
+
+       Please note that these warnings are just used to help the Homebrew
+       maintainers with debugging if you file an issue. If everything you use
+       Homebrew for is working fine: please don’t worry or file an issue; just
+       ignore this.
+
+       ----lliisstt--cchheecckkss
+              List all audit methods, which can be run individually if
+              provided as arguments.
+
+       --DD, ----aauuddiitt--ddeebbuugg
+              Enable debugging and profiling of audit methods.
+
+   ffeettcchh [_o_p_t_i_o_n_s] _f_o_r_m_u_l_a|_c_a_s_k [...]
+       Download a bottle (if available) or source packages for _f_o_r_m_u_l_ae and
+       binaries for _c_a_s_ks. For files, also print SHA-256 checksums.
+
+       ----ooss   Download for the given operating system. (Pass aallll to download
+              for all operating systems.)
+
+       ----aarrcchh Download for the given CPU architecture. (Pass aallll to download
+              for all architectures.)
+
+       ----bboottttllee--ttaagg
+              Download a bottle for given tag.
+
+       ----HHEEAADD Fetch HEAD version instead of stable version.
+
+       --ff, ----ffoorrccee
+              Remove a previously cached version and re-fetch.
+
+       --vv, ----vveerrbboossee
+              Do a verbose VCS checkout, if the URL represents a VCS. This is
+              useful for seeing if an existing VCS cache has been updated.
+
+       ----rreettrryy
+              Retry if downloading fails or re-download if the checksum of a
+              previously cached version no longer matches. Tries at most 5
+              times with exponential backoff.
+
+       ----ddeeppss Also download dependencies for any listed _f_o_r_m_u_l_a.
+
+       --ss, ----bbuuiilldd--ffrroomm--ssoouurrccee
+              Download source packages rather than a bottle.
+
+       ----bbuuiilldd--bboottttllee
+              Download source packages (for eventual bottling) rather than a
+              bottle.
+
+       ----ffoorrccee--bboottttllee
+              Download a bottle if it exists for the current or newest version
+              of macOS, even if it would not be used during installation.
+
+       ----[[nnoo--]]qquuaarraannttiinnee
+              Disable/enable quarantining of downloads (default: enabled).
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+   ffoorrmmuullaaee
+       List all locally installable formulae including short names.
+
+   ggiisstt--llooggss [_o_p_t_i_o_n_s] _f_o_r_m_u_l_a
+       Upload logs for a failed build of _f_o_r_m_u_l_a to a new Gist. Presents an
+       error message if no logs are found.
+
+       ----wwiitthh--hhoossttnnaammee
+              Include the hostname in the Gist.
+
+       --nn, ----nneeww--iissssuuee
+              Automatically create a new issue in the appropriate GitHub
+              repository after creating the Gist.
+
+       --pp, ----pprriivvaattee
+              The Gist will be marked private and will not appear in listings
+              but will be accessible with its link.
+
+   hheellpp [_c_o_m_m_a_n_d ...]
+       Outputs the usage instructions for bbrreeww _c_o_m_m_a_n_d. Equivalent to bbrreeww
+       ----hheellpp _c_o_m_m_a_n_d.
+
+   hhoommee,, hhoommeeppaaggee [----ffoorrmmuullaa] [----ccaasskk] [_f_o_r_m_u_l_a|_c_a_s_k ...]
+       Open a _f_o_r_m_u_l_a or _c_a_s_k’s homepage in a browser, or open Homebrew’s own
+       homepage if no argument is provided.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+   iinnffoo,, aabbvv [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a|_c_a_s_k ...]
+       Display brief statistics for your Homebrew installation. If a _f_o_r_m_u_l_a
+       or _c_a_s_k is provided, show summary of information about it.
+
+       ----aannaallyyttiiccss
+              List global Homebrew analytics data or, if specified,
+              installation and build error data for _f_o_r_m_u_l_a (provided neither
+              HHOOMMEEBBRREEWW__NNOO__AANNAALLYYTTIICCSS nor HHOOMMEEBBRREEWW__NNOO__GGIITTHHUUBB__AAPPII are set).
+
+       ----ddaayyss How many days of analytics data to retrieve. The value for _d_a_y_s
+              must be 3300, 9900 or 336655. The default is 3300.
+
+       ----ccaatteeggoorryy
+              Which type of analytics data to retrieve. The value for _c_a_t_e_g_o_r_y
+              must be iinnssttaallll, iinnssttaallll--oonn--rreeqquueesstt or bbuuiilldd--eerrrroorr; ccaasskk--iinnssttaallll
+              or ooss--vveerrssiioonn may be specified if _f_o_r_m_u_l_a is not. The default is
+              iinnssttaallll.
+
+       ----ggiitthhuubb
+              Open the GitHub source page for _f_o_r_m_u_l_a and _c_a_s_k in a browser.
+              To view the history locally: bbrreeww lloogg --pp _f_o_r_m_u_l_a or _c_a_s_k
+
+       ----ffeettcchh--mmaanniiffeesstt
+              Fetch GitHub Packages manifest for extra information when
+              _f_o_r_m_u_l_a is not installed.
+
+       ----jjssoonn Print a JSON representation. Currently the default value for
+              _v_e_r_s_i_o_n is vv11 for _f_o_r_m_u_l_a. For _f_o_r_m_u_l_a and _c_a_s_k use vv22. See the
+              docs for examples of using the JSON output:
+              <https://docs.brew.sh/Querying-Brew>
+
+       ----iinnssttaalllleedd
+              Print JSON of formulae that are currently installed.
+
+       ----eevvaall--aallll
+              Evaluate all available formulae and casks, whether installed or
+              not, to print their JSON. Implied if HHOOMMEEBBRREEWW__EEVVAALL__AALLLL is set.
+
+       ----vvaarriiaattiioonnss
+              Include the variations hash in each formula’s JSON output.
+
+       --vv, ----vveerrbboossee
+              Show more verbose analytics data for _f_o_r_m_u_l_a.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+   iinnssttaallll [_o_p_t_i_o_n_s] _f_o_r_m_u_l_a|_c_a_s_k [...]
+       Install a _f_o_r_m_u_l_a or _c_a_s_k. Additional options specific to a _f_o_r_m_u_l_a may
+       be appended to the command.
+
+       Unless HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLLEEDD__DDEEPPEENNDDEENNTTSS__CCHHEECCKK is set, bbrreeww uuppggrraaddee or
+       bbrreeww rreeiinnssttaallll will be run for outdated dependents and dependents with
+       broken linkage, respectively.
+
+       Unless HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLL__CCLLEEAANNUUPP is set, bbrreeww cclleeaannuupp will then be
+       run for the installed formulae or, every 30 days, for all formulae.
+
+       Unless HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLL__UUPPGGRRAADDEE is set, bbrreeww iinnssttaallll _f_o_r_m_u_l_a will
+       upgrade _f_o_r_m_u_l_a if it is already installed but outdated.
+
+       --dd, ----ddeebbuugg
+              If brewing fails, open an interactive debugging session with
+              access to IRB or a shell inside the temporary build directory.
+
+       ----ddiissppllaayy--ttiimmeess
+              Print install times for each package at the end of the run.
+
+       --ff, ----ffoorrccee
+              Install formulae without checking for previously installed
+              keg-only or non-migrated versions. When installing casks,
+              overwrite existing files (binaries and symlinks are excluded,
+              unless originally from the same cask).
+
+       --vv, ----vveerrbboossee
+              Print the verification and post-install steps.
+
+       --nn, ----ddrryy--rruunn
+              Show what would be installed, but do not actually install
+              anything.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----iiggnnoorree--ddeeppeennddeenncciieess
+              An unsupported Homebrew development option to skip installing
+              any dependencies of any kind. If the dependencies are not
+              already present, the formula will have issues. If you’re not
+              developing Homebrew, consider adjusting your PATH rather than
+              using this option.
+
+       ----oonnllyy--ddeeppeennddeenncciieess
+              Install the dependencies with specified options but do not
+              install the formula itself.
+
+       ----cccc   Attempt to compile using the specified _c_o_m_p_i_l_e_r, which should be
+              the name of the compiler’s executable, e.g. ggcccc--99 for GCC 9. In
+              order to use LLVM’s clang, specify llllvvmm__ccllaanngg. To use the
+              Apple-provided clang, specify ccllaanngg. This option will only
+              accept compilers that are provided by Homebrew or bundled with
+              macOS. Please do not file issues if you encounter errors while
+              using this option.
+
+       --ss, ----bbuuiilldd--ffrroomm--ssoouurrccee
+              Compile _f_o_r_m_u_l_a from source even if a bottle is provided.
+              Dependencies will still be installed from bottles if they are
+              available.
+
+       ----ffoorrccee--bboottttllee
+              Install from a bottle if it exists for the current or newest
+              version of macOS, even if it would not normally be used for
+              installation.
+
+       ----iinncclluuddee--tteesstt
+              Install testing dependencies required to run bbrreeww tteesstt _f_o_r_m_u_l_a.
+
+       ----HHEEAADD If _f_o_r_m_u_l_a defines it, install the HEAD version, aka. main,
+              trunk, unstable, master.
+
+       ----ffeettcchh--HHEEAADD
+              Fetch the upstream repository to detect if the HEAD installation
+              of the formula is outdated. Otherwise, the repository’s HEAD
+              will only be checked for updates when a new stable or
+              development version has been released.
+
+       ----kkeeeepp--ttmmpp
+              Retain the temporary files created during installation.
+
+       ----ddeebbuugg--ssyymmbboollss
+              Generate debug symbols on build. Source will be retained in a
+              cache directory.
+
+       ----bbuuiilldd--bboottttllee
+              Prepare the formula for eventual bottling during installation,
+              skipping any post-install steps.
+
+       ----sskkiipp--ppoosstt--iinnssttaallll
+              Install but skip any post-install steps.
+
+       ----bboottttllee--aarrcchh
+              Optimise bottles for the specified architecture rather than the
+              oldest architecture supported by the version of macOS the
+              bottles are built on.
+
+       --ii, ----iinntteerraaccttiivvee
+              Download and patch _f_o_r_m_u_l_a, then open a shell. This allows the
+              user to run ..//ccoonnffiigguurree ----hheellpp and otherwise determine how to
+              turn the software package into a Homebrew package.
+
+       --gg, ----ggiitt
+              Create a Git repository, useful for creating patches to the
+              software.
+
+       ----oovveerrwwrriittee
+              Delete files that already exist in the prefix while linking.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+       ----[[nnoo--]]bbiinnaarriieess
+              Disable/enable linking of helper executables (default: enabled).
+
+       ----rreeqquuiirree--sshhaa
+              Require all casks to have a checksum.
+
+       ----[[nnoo--]]qquuaarraannttiinnee
+              Disable/enable quarantining of downloads (default: enabled).
+
+       ----aaddoopptt
+              Adopt existing artifacts in the destination that are identical
+              to those being installed. Cannot be combined with ----ffoorrccee.
+
+       ----sskkiipp--ccaasskk--ddeeppss
+              Skip installing cask dependencies.
+
+       ----zzaapp  For use with bbrreeww rreeiinnssttaallll ----ccaasskk. Remove all files associated
+              with a cask. _M_a_y _r_e_m_o_v_e _f_i_l_e_s _w_h_i_c_h _a_r_e _s_h_a_r_e_d _b_e_t_w_e_e_n
+              _a_p_p_l_i_c_a_t_i_o_n_s_.
+
+   lleeaavveess [----iinnssttaalllleedd--oonn--rreeqquueesstt] [----iinnssttaalllleedd--aass--ddeeppeennddeennccyy]
+       List installed formulae that are not dependencies of another installed
+       formula or cask.
+
+       --rr, ----iinnssttaalllleedd--oonn--rreeqquueesstt
+              Only list leaves that were manually installed.
+
+       --pp, ----iinnssttaalllleedd--aass--ddeeppeennddeennccyy
+              Only list leaves that were installed as dependencies.
+
+   lliinnkk,, llnn [_o_p_t_i_o_n_s] _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a [...]
+       Symlink all of _f_o_r_m_u_l_a’s installed files into Homebrew’s prefix. This
+       is done automatically when you install formulae but can be useful for
+       manual installations.
+
+       ----oovveerrwwrriittee
+              Delete files that already exist in the prefix while linking.
+
+       --nn, ----ddrryy--rruunn
+              List files which would be linked or deleted by bbrreeww lliinnkk
+              ----oovveerrwwrriittee without actually linking or deleting any files.
+
+       --ff, ----ffoorrccee
+              Allow keg-only formulae to be linked.
+
+       ----HHEEAADD Link the HEAD version of the formula if it is installed.
+
+   lliisstt,, llss [_o_p_t_i_o_n_s] [_i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a|_i_n_s_t_a_l_l_e_d___c_a_s_k ...]
+       List all installed formulae and casks. If _f_o_r_m_u_l_a is provided,
+       summarise the paths within its current keg. If _c_a_s_k is provided, list
+       its artifacts.
+
+       ----ffoorrmmuullaa
+              List only formulae, or treat all named arguments as formulae.
+
+       ----ccaasskk List only casks, or treat all named arguments as casks.
+
+       ----ffuullll--nnaammee
+              Print formulae with fully-qualified names. Unless ----ffuullll--nnaammee,
+              ----vveerrssiioonnss or ----ppiinnnneedd are passed, other options (i.e. --11, --ll,
+              --rr and --tt) are passed to llss(1) which produces the actual output.
+
+       ----vveerrssiioonnss
+              Show the version number for installed formulae, or only the
+              specified formulae if _f_o_r_m_u_l_a are provided.
+
+       ----mmuullttiippllee
+              Only show formulae with multiple versions installed.
+
+       ----ppiinnnneedd
+              List only pinned formulae, or only the specified (pinned)
+              formulae if _f_o_r_m_u_l_a are provided. See also ppiinn, uunnppiinn.
+
+       ----iinnssttaalllleedd--oonn--rreeqquueesstt
+              List the formulae installed on request.
+
+       ----iinnssttaalllleedd--aass--ddeeppeennddeennccyy
+              List the formulae installed as dependencies.
+
+       ----ppoouurreedd--ffrroomm--bboottttllee
+              List the formulae installed from a bottle.
+
+       ----bbuuiilltt--ffrroomm--ssoouurrccee
+              List the formulae compiled from source.
+
+       --11     Force output to be one entry per line. This is the default when
+              output is not to a terminal.
+
+       --ll     List formulae and/or casks in long format. Has no effect when a
+              formula or cask name is passed as an argument.
+
+       --rr     Reverse the order of the formulae and/or casks sort to list the
+              oldest entries first. Has no effect when a formula or cask name
+              is passed as an argument.
+
+       --tt     Sort formulae and/or casks by time modified, listing most
+              recently modified first. Has no effect when a formula or cask
+              name is passed as an argument.
+
+   lloogg [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a|_c_a_s_k]
+       Show the ggiitt lloogg for _f_o_r_m_u_l_a or _c_a_s_k, or show the log for the Homebrew
+       repository if no formula or cask is provided.
+
+       --pp, ----ppaattcchh
+              Also print patch from commit.
+
+       ----ssttaatt Also print diffstat from commit.
+
+       ----oonneelliinnee
+              Print only one line per commit.
+
+       --11     Print only one commit.
+
+       --nn, ----mmaaxx--ccoouunntt
+              Print only a specified number of commits.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+   mmiiggrraattee [_o_p_t_i_o_n_s] _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a|_i_n_s_t_a_l_l_e_d___c_a_s_k [...]
+       Migrate renamed packages to new names, where _f_o_r_m_u_l_a are old names of
+       packages.
+
+       --ff, ----ffoorrccee
+              Treat installed _f_o_r_m_u_l_a and provided _f_o_r_m_u_l_a as if they are from
+              the same taps and migrate them anyway.
+
+       --nn, ----ddrryy--rruunn
+              Show what would be migrated, but do not actually migrate
+              anything.
+
+       ----ffoorrmmuullaa
+              Only migrate formulae.
+
+       ----ccaasskk Only migrate casks.
+
+   mmiissssiinngg [----hhiiddee==] [_f_o_r_m_u_l_a ...]
+       Check the given _f_o_r_m_u_l_a kegs for missing dependencies. If no _f_o_r_m_u_l_a
+       are provided, check all kegs. Will exit with a non-zero status if any
+       kegs are found to be missing dependencies.
+
+       ----hhiiddee Act as if none of the specified _h_i_d_d_e_n are installed. _h_i_d_d_e_n
+              should be a comma-separated list of formulae.
+
+   nnooddeennvv--ssyynncc
+       Create symlinks for Homebrew’s installed NodeJS versions in
+       ~~//..nnooddeennvv//vveerrssiioonnss.
+
+       Note that older version symlinks will also be created so e.g. NodeJS
+       19.1.0 will also be symlinked to 19.0.0.
+
+   ooppttiioonnss [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a ...]
+       Show install options specific to _f_o_r_m_u_l_a.
+
+       ----ccoommppaacctt
+              Show all options on a single line separated by spaces.
+
+       ----iinnssttaalllleedd
+              Show options for formulae that are currently installed.
+
+       ----eevvaall--aallll
+              Evaluate all available formulae and casks, whether installed or
+              not, to show their options.
+
+       ----ccoommmmaanndd
+              Show options for the specified _c_o_m_m_a_n_d.
+
+   oouuttddaatteedd [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a|_c_a_s_k ...]
+       List installed casks and formulae that have an updated version
+       available. By default, version information is displayed in interactive
+       shells and suppressed otherwise.
+
+       --qq, ----qquuiieett
+              List only the names of outdated kegs (takes precedence over
+              ----vveerrbboossee).
+
+       --vv, ----vveerrbboossee
+              Include detailed version information.
+
+       ----ffoorrmmuullaa
+              List only outdated formulae.
+
+       ----ccaasskk List only outdated casks.
+
+       ----jjssoonn Print output in JSON format. There are two versions: vv11 and vv22.
+              vv11 is deprecated and is currently the default if no version is
+              specified. vv22 prints outdated formulae and casks.
+
+       ----ffeettcchh--HHEEAADD
+              Fetch the upstream repository to detect if the HEAD installation
+              of the formula is outdated. Otherwise, the repository’s HEAD
+              will only be checked for updates when a new stable or
+              development version has been released.
+
+       --gg, ----ggrreeeeddyy
+              Also include outdated casks with aauuttoo__uuppddaatteess ttrruuee or vveerrssiioonn
+              ::llaatteesstt.
+
+       ----ggrreeeeddyy--llaatteesstt
+              Also include outdated casks including those with vveerrssiioonn
+              ::llaatteesstt.
+
+       ----ggrreeeeddyy--aauuttoo--uuppddaatteess
+              Also include outdated casks including those with aauuttoo__uuppddaatteess
+              ttrruuee.
+
+   ppiinn _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a [...]
+       Pin the specified _f_o_r_m_u_l_a, preventing them from being upgraded when
+       issuing the bbrreeww uuppggrraaddee _f_o_r_m_u_l_a command. See also uunnppiinn.
+
+       _N_o_t_e_: Other packages which depend on newer versions of a pinned formula
+       might not install or run correctly.
+
+   ppoossttiinnssttaallll,, ppoosstt__iinnssttaallll _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a [...]
+       Rerun the post-install steps for _f_o_r_m_u_l_a.
+
+   ppyyeennvv--ssyynncc
+       Create symlinks for Homebrew’s installed Python versions in
+       ~~//..ppyyeennvv//vveerrssiioonnss.
+
+       Note that older patch version symlinks will be created and linked to
+       the minor version so e.g. Python 3.11.0 will also be symlinked to
+       3.11.3.
+
+   rrbbeennvv--ssyynncc
+       Create symlinks for Homebrew’s installed Ruby versions in
+       ~~//..rrbbeennvv//vveerrssiioonnss.
+
+       Note that older version symlinks will also be created so e.g. Ruby
+       3.2.1 will also be symlinked to 3.2.0.
+
+   rreeaaddaallll [_o_p_t_i_o_n_s] [_t_a_p ...]
+       Import all items from the specified _t_a_p, or from all installed taps if
+       none is provided. This can be useful for debugging issues across all
+       items when making significant changes to ffoorrmmuullaa..rrbb, testing the
+       performance of loading all items or checking if any current
+       formulae/casks have Ruby issues.
+
+       ----ooss   Read using the given operating system. (Pass aallll to simulate all
+              operating systems.)
+
+       ----aarrcchh Read using the given CPU architecture. (Pass aallll to simulate all
+              architectures.)
+
+       ----aalliiaasseess
+              Verify any alias symlinks in each tap.
+
+       ----ssyynnttaaxx
+              Syntax-check all of Homebrew’s Ruby files (if no _t_a_p is passed).
+
+       ----eevvaall--aallll
+              Evaluate all available formulae and casks, whether installed or
+              not. Implied if HHOOMMEEBBRREEWW__EEVVAALL__AALLLL is set.
+
+       ----nnoo--ssiimmuullaattee
+              Don’t simulate other system configurations when checking
+              formulae and casks.
+
+   rreeiinnssttaallll [_o_p_t_i_o_n_s] _f_o_r_m_u_l_a|_c_a_s_k [...]
+       Uninstall and then reinstall a _f_o_r_m_u_l_a or _c_a_s_k using the same options
+       it was originally installed with, plus any appended options specific to
+       a _f_o_r_m_u_l_a.
+
+       Unless HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLLEEDD__DDEEPPEENNDDEENNTTSS__CCHHEECCKK is set, bbrreeww uuppggrraaddee or
+       bbrreeww rreeiinnssttaallll will be run for outdated dependents and dependents with
+       broken linkage, respectively.
+
+       Unless HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLL__CCLLEEAANNUUPP is set, bbrreeww cclleeaannuupp will then be
+       run for the reinstalled formulae or, every 30 days, for all formulae.
+
+       --dd, ----ddeebbuugg
+              If brewing fails, open an interactive debugging session with
+              access to IRB or a shell inside the temporary build directory.
+
+       ----ddiissppllaayy--ttiimmeess
+              Print install times for each package at the end of the run.
+
+       --ff, ----ffoorrccee
+              Install without checking for previously installed keg-only or
+              non-migrated versions.
+
+       --vv, ----vveerrbboossee
+              Print the verification and post-install steps.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       --ss, ----bbuuiilldd--ffrroomm--ssoouurrccee
+              Compile _f_o_r_m_u_l_a from source even if a bottle is available.
+
+       --ii, ----iinntteerraaccttiivvee
+              Download and patch _f_o_r_m_u_l_a, then open a shell. This allows the
+              user to run ..//ccoonnffiigguurree ----hheellpp and otherwise determine how to
+              turn the software package into a Homebrew package.
+
+       ----ffoorrccee--bboottttllee
+              Install from a bottle if it exists for the current or newest
+              version of macOS, even if it would not normally be used for
+              installation.
+
+       ----kkeeeepp--ttmmpp
+              Retain the temporary files created during installation.
+
+       ----ddeebbuugg--ssyymmbboollss
+              Generate debug symbols on build. Source will be retained in a
+              cache directory.
+
+       --gg, ----ggiitt
+              Create a Git repository, useful for creating patches to the
+              software.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+       ----[[nnoo--]]bbiinnaarriieess
+              Disable/enable linking of helper executables (default: enabled).
+
+       ----rreeqquuiirree--sshhaa
+              Require all casks to have a checksum.
+
+       ----[[nnoo--]]qquuaarraannttiinnee
+              Disable/enable quarantining of downloads (default: enabled).
+
+       ----aaddoopptt
+              Adopt existing artifacts in the destination that are identical
+              to those being installed. Cannot be combined with ----ffoorrccee.
+
+       ----sskkiipp--ccaasskk--ddeeppss
+              Skip installing cask dependencies.
+
+       ----zzaapp  For use with bbrreeww rreeiinnssttaallll ----ccaasskk. Remove all files associated
+              with a cask. _M_a_y _r_e_m_o_v_e _f_i_l_e_s _w_h_i_c_h _a_r_e _s_h_a_r_e_d _b_e_t_w_e_e_n
+              _a_p_p_l_i_c_a_t_i_o_n_s_.
+
+   sseeaarrcchh,, --SS [_o_p_t_i_o_n_s] _t_e_x_t|//_r_e_g_e_x// [...]
+       Perform a substring search of cask tokens and formula names for _t_e_x_t.
+       If _t_e_x_t is flanked by slashes, it is interpreted as a regular
+       expression.
+
+       ----ffoorrmmuullaa
+              Search for formulae.
+
+       ----ccaasskk Search for casks.
+
+       ----ddeesscc Search for formulae with a description matching _t_e_x_t and casks
+              with a name or description matching _t_e_x_t.
+
+       ----eevvaall--aallll
+              Evaluate all available formulae and casks, whether installed or
+              not, to search their descriptions. Implied if HHOOMMEEBBRREEWW__EEVVAALL__AALLLL
+              is set.
+
+       ----ppuullll--rreeqquueesstt
+              Search for GitHub pull requests containing _t_e_x_t.
+
+       ----ooppeenn Search for only open GitHub pull requests.
+
+       ----cclloosseedd
+              Search for only closed GitHub pull requests.
+
+       ----rreeppoollooggyy
+              Search for _t_e_x_t in the given database.
+
+       ----mmaaccppoorrttss
+              Search for _t_e_x_t in the given database.
+
+       ----ffiinnkk Search for _t_e_x_t in the given database.
+
+       ----ooppeennssuussee
+              Search for _t_e_x_t in the given database.
+
+       ----ffeeddoorraa
+              Search for _t_e_x_t in the given database.
+
+       ----aarrcchhlliinnuuxx
+              Search for _t_e_x_t in the given database.
+
+       ----ddeebbiiaann
+              Search for _t_e_x_t in the given database.
+
+       ----uubbuunnttuu
+              Search for _t_e_x_t in the given database.
+
+   sseettuupp--rruubbyy [_c_o_m_m_a_n_d ...]
+       Installs and configures Homebrew’s Ruby. If ccoommmmaanndd is passed, it will
+       only run Bundler if necessary for that command.
+
+   sshheelllleennvv [_s_h_e_l_l ...]
+       Valid shells: bash|csh|fish|pwsh|sh|tcsh|zsh
+
+       Print export statements. When run in a shell, this installation of
+       Homebrew will be added to your PPAATTHH, MMAANNPPAATTHH, and IINNFFOOPPAATTHH.
+
+       The variables HHOOMMEEBBRREEWW__PPRREEFFIIXX, HHOOMMEEBBRREEWW__CCEELLLLAARR and HHOOMMEEBBRREEWW__RREEPPOOSSIITTOORRYY
+       are also exported to avoid querying them multiple times. To help
+       guarantee idempotence, this command produces no output when Homebrew’s
+       bbiinn and ssbbiinn directories are first and second respectively in your
+       PPAATTHH. Consider adding evaluation of this command’s output to your
+       dotfiles (e.g. ~~//..bbaasshh__pprrooffiillee or ~~//..zzpprrooffiillee on macOS and ~~//..bbaasshhrrcc or
+       ~~//..zzsshhrrcc on Linux) with: eevvaall ""$$((bbrreeww sshheelllleennvv))""
+
+       The shell can be specified explicitly with a supported shell name
+       parameter. Unknown shells will output POSIX exports.
+
+   ttaabb [_o_p_t_i_o_n_s] _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a|_i_n_s_t_a_l_l_e_d___c_a_s_k [...]
+       Edit tab information for installed formulae or casks.
+
+       This can be useful when you want to control whether an installed
+       formula should be removed by bbrreeww aauuttoorreemmoovvee. To prevent removal, mark
+       the formula as installed on request; to allow removal, mark the formula
+       as not installed on request.
+
+       ----iinnssttaalllleedd--oonn--rreeqquueesstt
+              Mark _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a or _i_n_s_t_a_l_l_e_d___c_a_s_k as installed on
+              request.
+
+       ----nnoo--iinnssttaalllleedd--oonn--rreeqquueesstt
+              Mark _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a or _i_n_s_t_a_l_l_e_d___c_a_s_k as not installed on
+              request.
+
+       ----ffoorrmmuullaa
+              Only mark formulae.
+
+       ----ccaasskk Only mark casks.
+
+   ttaapp [_o_p_t_i_o_n_s] [_u_s_e_r//_r_e_p_o] [_U_R_L]
+       Tap a formula repository. If no arguments are provided, list all
+       installed taps.
+
+       With _U_R_L unspecified, tap a formula repository from GitHub using HTTPS.
+       Since so many taps are hosted on GitHub, this command is a shortcut for
+       bbrreeww ttaapp _u_s_e_r//_r_e_p_o hhttttppss::////ggiitthhuubb..ccoomm//_u_s_e_r//hhoommeebbrreeww--_r_e_p_o.
+
+       With _U_R_L specified, tap a formula repository from anywhere, using any
+       transport protocol that ggiitt(1) handles. The one-argument form of ttaapp
+       simplifies but also limits. This two-argument command makes no
+       assumptions, so taps can be cloned from places other than GitHub and
+       using protocols other than HTTPS, e.g. SSH, git, HTTP, FTP(S), rsync.
+
+       ----ccuussttoomm--rreemmoottee
+              Install or change a tap with a custom remote. Useful for
+              mirrors.
+
+       ----rreeppaaiirr
+              Migrate tapped formulae from symlink-based to directory-based
+              structure.
+
+       ----eevvaall--aallll
+              Evaluate all the formulae, casks and aliases in the new tap to
+              check validity. Implied if HHOOMMEEBBRREEWW__EEVVAALL__AALLLL is set.
+
+       ----ffoorrccee
+              Force install core taps even under API mode.
+
+   ttaapp--iinnffoo [----iinnssttaalllleedd] [----jjssoonn] [_t_a_p ...]
+       Show detailed information about one or more _t_a_ps. If no _t_a_p names are
+       provided, display brief statistics for all installed taps.
+
+       ----iinnssttaalllleedd
+              Show information on each installed tap.
+
+       ----jjssoonn Print a JSON representation of _t_a_p. Currently the default and
+              only accepted value for _v_e_r_s_i_o_n is vv11. See the docs for examples
+              of using the JSON output: <https://docs.brew.sh/Querying-Brew>
+
+   uunniinnssttaallll,, rreemmoovvee,, rrmm [_o_p_t_i_o_n_s] _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a|_i_n_s_t_a_l_l_e_d___c_a_s_k [...]
+       Uninstall a _f_o_r_m_u_l_a or _c_a_s_k.
+
+       --ff, ----ffoorrccee
+              Delete all installed versions of _f_o_r_m_u_l_a. Uninstall even if _c_a_s_k
+              is not installed, overwrite existing files and ignore errors
+              when removing files.
+
+       ----zzaapp  Remove all files associated with a _c_a_s_k. _M_a_y _r_e_m_o_v_e _f_i_l_e_s _w_h_i_c_h
+              _a_r_e _s_h_a_r_e_d _b_e_t_w_e_e_n _a_p_p_l_i_c_a_t_i_o_n_s_.
+
+       ----iiggnnoorree--ddeeppeennddeenncciieess
+              Don’t fail uninstall, even if _f_o_r_m_u_l_a is a dependency of any
+              installed formulae.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+   uunnlliinnkk [----ddrryy--rruunn] _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a [...]
+       Remove symlinks for _f_o_r_m_u_l_a from Homebrew’s prefix. This can be useful
+       for temporarily disabling a formula: bbrreeww uunnlliinnkk _f_o_r_m_u_l_a &&&& _c_o_m_m_a_n_d_s &&&&
+       bbrreeww lliinnkk _f_o_r_m_u_l_a
+
+       --nn, ----ddrryy--rruunn
+              List files which would be unlinked without actually unlinking or
+              deleting any files.
+
+   uunnppiinn _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a [...]
+       Unpin _f_o_r_m_u_l_a, allowing them to be upgraded by bbrreeww uuppggrraaddee _f_o_r_m_u_l_a.
+       See also ppiinn.
+
+   uunnttaapp [----ffoorrccee] _t_a_p [...]
+       Remove a tapped formula repository.
+
+       --ff, ----ffoorrccee
+              Untap even if formulae or casks from this tap are currently
+              installed.
+
+   uuppddaattee,, uupp [_o_p_t_i_o_n_s]
+       Fetch the newest version of Homebrew and all formulae from GitHub using
+       ggiitt(1) and perform any necessary migrations.
+
+       ----mmeerrggee
+              Use ggiitt mmeerrggee to apply updates (rather than ggiitt rreebbaassee).
+
+       ----aauuttoo--uuppddaattee
+              Run on auto-updates (e.g. before bbrreeww iinnssttaallll). Skips some
+              slower steps.
+
+       --ff, ----ffoorrccee
+              Always do a slower, full update check (even if unnecessary).
+
+       --vv, ----vveerrbboossee
+              Print the directories checked and ggiitt operations performed.
+
+       --dd, ----ddeebbuugg
+              Display a trace of all shell commands as they are executed.
+
+   uuppddaattee--rreesseett [_r_e_p_o_s_i_t_o_r_y ...]
+       Fetch and reset Homebrew and all tap repositories (or any specified
+       _r_e_p_o_s_i_t_o_r_y) using ggiitt(1) to their latest oorriiggiinn//HHEEAADD.
+
+       _N_o_t_e_: this will destroy all your uncommitted or committed changes.
+
+   uuppggrraaddee [_o_p_t_i_o_n_s] [_i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a|_i_n_s_t_a_l_l_e_d___c_a_s_k ...]
+       Upgrade outdated casks and outdated, unpinned formulae using the same
+       options they were originally installed with, plus any appended brew
+       formula options. If _c_a_s_k or _f_o_r_m_u_l_a are specified, upgrade only the
+       given _c_a_s_k or _f_o_r_m_u_l_a kegs (unless they are pinned; see ppiinn, uunnppiinn).
+
+       Unless HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLLEEDD__DDEEPPEENNDDEENNTTSS__CCHHEECCKK is set, bbrreeww uuppggrraaddee or
+       bbrreeww rreeiinnssttaallll will be run for outdated dependents and dependents with
+       broken linkage, respectively.
+
+       Unless HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLL__CCLLEEAANNUUPP is set, bbrreeww cclleeaannuupp will then be
+       run for the upgraded formulae or, every 30 days, for all formulae.
+
+       --dd, ----ddeebbuugg
+              If brewing fails, open an interactive debugging session with
+              access to IRB or a shell inside the temporary build directory.
+
+       ----ddiissppllaayy--ttiimmeess
+              Print install times for each package at the end of the run.
+
+       --ff, ----ffoorrccee
+              Install formulae without checking for previously installed
+              keg-only or non-migrated versions. When installing casks,
+              overwrite existing files (binaries and symlinks are excluded,
+              unless originally from the same cask).
+
+       --vv, ----vveerrbboossee
+              Print the verification and post-install steps.
+
+       --nn, ----ddrryy--rruunn
+              Show what would be upgraded, but do not actually upgrade
+              anything.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae. If no named arguments are
+              specified, upgrade only outdated formulae.
+
+       --ss, ----bbuuiilldd--ffrroomm--ssoouurrccee
+              Compile _f_o_r_m_u_l_a from source even if a bottle is available.
+
+       --ii, ----iinntteerraaccttiivvee
+              Download and patch _f_o_r_m_u_l_a, then open a shell. This allows the
+              user to run ..//ccoonnffiigguurree ----hheellpp and otherwise determine how to
+              turn the software package into a Homebrew package.
+
+       ----ffoorrccee--bboottttllee
+              Install from a bottle if it exists for the current or newest
+              version of macOS, even if it would not normally be used for
+              installation.
+
+       ----ffeettcchh--HHEEAADD
+              Fetch the upstream repository to detect if the HEAD installation
+              of the formula is outdated. Otherwise, the repository’s HEAD
+              will only be checked for updates when a new stable or
+              development version has been released.
+
+       ----kkeeeepp--ttmmpp
+              Retain the temporary files created during installation.
+
+       ----ddeebbuugg--ssyymmbboollss
+              Generate debug symbols on build. Source will be retained in a
+              cache directory.
+
+       ----oovveerrwwrriittee
+              Delete files that already exist in the prefix while linking.
+
+       ----ccaasskk Treat all named arguments as casks. If no named arguments are
+              specified, upgrade only outdated casks.
+
+       ----sskkiipp--ccaasskk--ddeeppss
+              Skip installing cask dependencies.
+
+       --gg, ----ggrreeeeddyy
+              Also include casks with aauuttoo__uuppddaatteess ttrruuee or vveerrssiioonn ::llaatteesstt.
+
+       ----ggrreeeeddyy--llaatteesstt
+              Also include casks with vveerrssiioonn ::llaatteesstt.
+
+       ----ggrreeeeddyy--aauuttoo--uuppddaatteess
+              Also include casks with aauuttoo__uuppddaatteess ttrruuee.
+
+       ----[[nnoo--]]bbiinnaarriieess
+              Disable/enable linking of helper executables (default: enabled).
+
+       ----rreeqquuiirree--sshhaa
+              Require all casks to have a checksum.
+
+       ----[[nnoo--]]qquuaarraannttiinnee
+              Disable/enable quarantining of downloads (default: enabled).
+
+   uusseess [_o_p_t_i_o_n_s] _f_o_r_m_u_l_a [...]
+       Show formulae and casks that specify _f_o_r_m_u_l_a as a dependency; that is,
+       show dependents of _f_o_r_m_u_l_a. When given multiple formula arguments, show
+       the intersection of formulae that use _f_o_r_m_u_l_a. By default, uusseess shows
+       all formulae and casks that specify _f_o_r_m_u_l_a as a required or
+       recommended dependency for their stable builds.
+
+       _N_o_t_e_: ----mmiissssiinngg and ----sskkiipp--rreeccoommmmeennddeedd have precedence over
+       ----iinncclluuddee--**.
+
+       ----rreeccuurrssiivvee
+              Resolve more than one level of dependencies.
+
+       ----iinnssttaalllleedd
+              Only list formulae and casks that are currently installed.
+
+       ----mmiissssiinngg
+              Only list formulae and casks that are not currently installed.
+
+       ----eevvaall--aallll
+              Evaluate all available formulae and casks, whether installed or
+              not, to show their dependents.
+
+       ----iinncclluuddee--bbuuiilldd
+              Include formulae that specify _f_o_r_m_u_l_a as a ::bbuuiilldd dependency.
+
+       ----iinncclluuddee--tteesstt
+              Include formulae that specify _f_o_r_m_u_l_a as a ::tteesstt dependency.
+
+       ----iinncclluuddee--ooppttiioonnaall
+              Include formulae that specify _f_o_r_m_u_l_a as an ::ooppttiioonnaall
+              dependency.
+
+       ----sskkiipp--rreeccoommmmeennddeedd
+              Skip all formulae that specify _f_o_r_m_u_l_a as a ::rreeccoommmmeennddeedd
+              dependency.
+
+       ----ffoorrmmuullaa
+              Include only formulae.
+
+       ----ccaasskk Include only casks.
+
+   ----ccaacchhee [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a|_c_a_s_k ...]
+       Display Homebrew’s download cache. See also HHOOMMEEBBRREEWW__CCAACCHHEE.
+
+       If a _f_o_r_m_u_l_a or _c_a_s_k is provided, display the file or directory used to
+       cache it.
+
+       ----ooss   Show cache file for the given operating system. (Pass aallll to
+              show cache files for all operating systems.)
+
+       ----aarrcchh Show cache file for the given CPU architecture. (Pass aallll to
+              show cache files for all architectures.)
+
+       --ss, ----bbuuiilldd--ffrroomm--ssoouurrccee
+              Show the cache file used when building from source.
+
+       ----ffoorrccee--bboottttllee
+              Show the cache file used when pouring a bottle.
+
+       ----bboottttllee--ttaagg
+              Show the cache file used when pouring a bottle for the given
+              tag.
+
+       ----HHEEAADD Show the cache file used when building from HEAD.
+
+       ----ffoorrmmuullaa
+              Only show cache files for formulae.
+
+       ----ccaasskk Only show cache files for casks.
+
+   ----ccaasskkrroooomm [_c_a_s_k ...]
+       Display Homebrew’s Caskroom path.
+
+       If _c_a_s_k is provided, display the location in the Caskroom where _c_a_s_k
+       would be installed, without any sort of versioned directory as the last
+       path.
+
+   ----cceellllaarr [_f_o_r_m_u_l_a ...]
+       Display Homebrew’s Cellar path. _D_e_f_a_u_l_t_: $$((bbrreeww ----pprreeffiixx))//CCeellllaarr, or if
+       that directory doesn’t exist, $$((bbrreeww ----rreeppoossiittoorryy))//CCeellllaarr.
+
+       If _f_o_r_m_u_l_a is provided, display the location in the Cellar where
+       _f_o_r_m_u_l_a would be installed, without any sort of versioned directory as
+       the last path.
+
+   ----eennvv,, eennvviirroonnmmeenntt [----sshheellll==] [----ppllaaiinn] [_f_o_r_m_u_l_a ...]
+       Summarise Homebrew’s build environment as a plain list.
+
+       If the command’s output is sent through a pipe and no shell is
+       specified, the list is formatted for export to bbaasshh(1) unless ----ppllaaiinn
+       is passed.
+
+       ----sshheellll
+              Generate a list of environment variables for the specified
+              shell, or ----sshheellll==aauuttoo to detect the current shell.
+
+       ----ppllaaiinn
+              Generate plain output even when piped.
+
+   ----pprreeffiixx [----uunnbbrreewweedd] [----iinnssttaalllleedd] [_f_o_r_m_u_l_a ...]
+       Display Homebrew’s install path. _D_e_f_a_u_l_t_:
+
+       •   macOS ARM: //oopptt//hhoommeebbrreeww
+
+       •   macOS Intel: //uussrr//llooccaall
+
+       •   Linux: //hhoommee//lliinnuuxxbbrreeww//..lliinnuuxxbbrreeww
+
+       If _f_o_r_m_u_l_a is provided, display the location where _f_o_r_m_u_l_a is or would
+       be installed.
+
+       ----uunnbbrreewweedd
+              List files in Homebrew’s prefix not installed by Homebrew.
+
+       ----iinnssttaalllleedd
+              Outputs nothing and returns a failing status code if _f_o_r_m_u_l_a is
+              not installed.
+
+   ----rreeppoossiittoorryy,, ----rreeppoo [_t_a_p ...]
+       Display where Homebrew’s Git repository is located.
+
+       If _u_s_e_r//_r_e_p_o are provided, display where tap _u_s_e_r//_r_e_p_o’s directory is
+       located.
+
+   ----vveerrssiioonn,, --vv
+       Print the version numbers of Homebrew, Homebrew/homebrew-core and
+       Homebrew/homebrew-cask (if tapped) to standard output.
+
+DDEEVVEELLOOPPEERR CCOOMMMMAANNDDSS
+   aauuddiitt [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a|_c_a_s_k ...]
+       Check _f_o_r_m_u_l_a for Homebrew coding style violations. This should be run
+       before submitting a new formula or cask. If no _f_o_r_m_u_l_a|_c_a_s_k are
+       provided, check all locally available formulae and casks and skip style
+       checks. Will exit with a non-zero status if any errors are found.
+
+       ----ooss   Audit the given operating system. (Pass aallll to audit all
+              operating systems.)
+
+       ----aarrcchh Audit the given CPU architecture. (Pass aallll to audit all
+              architectures.)
+
+       ----ssttrriicctt
+              Run additional, stricter style checks.
+
+       ----ggiitt  Run additional, slower style checks that navigate the Git
+              repository.
+
+       ----oonnlliinnee
+              Run additional, slower style checks that require a network
+              connection.
+
+       ----iinnssttaalllleedd
+              Only check formulae and casks that are currently installed.
+
+       ----eevvaall--aallll
+              Evaluate all available formulae and casks, whether installed or
+              not, to audit them. Implied if HHOOMMEEBBRREEWW__EEVVAALL__AALLLL is set.
+
+       ----nneeww  Run various additional style checks to determine if a new
+              formula or cask is eligible for Homebrew. This should be used
+              when creating new formulae or casks and implies ----ssttrriicctt and
+              ----oonnlliinnee.
+
+       ----[[nnoo--]]ssiiggnniinngg
+              Audit for signed apps, which are required on ARM
+
+       ----ttookkeenn--ccoonnfflliiccttss
+              Audit for token conflicts.
+
+       ----ttaapp  Check the formulae within the given tap, specified as _u_s_e_r//_r_e_p_o.
+
+       ----ffiixx  Fix style violations automatically using RuboCop’s auto-correct
+              feature.
+
+       ----ddiissppllaayy--ffiilleennaammee
+              Prefix every line of output with the file or formula name being
+              audited, to make output easy to grep.
+
+       ----sskkiipp--ssttyyllee
+              Skip running non-RuboCop style checks. Useful if you plan on
+              running bbrreeww ssttyyllee separately. Enabled by default unless a
+              formula is specified by name.
+
+       --DD, ----aauuddiitt--ddeebbuugg
+              Enable debugging and profiling of audit methods.
+
+       ----oonnllyy Specify a comma-separated _m_e_t_h_o_d list to only run the methods
+              named aauuddiitt___m_e_t_h_o_d.
+
+       ----eexxcceepptt
+              Specify a comma-separated _m_e_t_h_o_d list to skip running the
+              methods named aauuddiitt___m_e_t_h_o_d.
+
+       ----oonnllyy--ccooppss
+              Specify a comma-separated _c_o_p_s list to check for violations of
+              only the listed RuboCop cops.
+
+       ----eexxcceepptt--ccooppss
+              Specify a comma-separated _c_o_p_s list to skip checking for
+              violations of the listed RuboCop cops.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+   bboottttllee [_o_p_t_i_o_n_s] _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a|_f_i_l_e [...]
+       Generate a bottle (binary package) from a formula that was installed
+       with ----bbuuiilldd--bboottttllee. If the formula specifies a rebuild version, it
+       will be incremented in the generated DSL. Passing ----kkeeeepp--oolldd will
+       attempt to keep it at its original value, while ----nnoo--rreebbuuiilldd will
+       remove it.
+
+       ----sskkiipp--rreellooccaattiioonn
+              Do not check if the bottle can be marked as relocatable.
+
+       ----ffoorrccee--ccoorree--ttaapp
+              Build a bottle even if _f_o_r_m_u_l_a is not in hhoommeebbrreeww//ccoorree or any
+              installed taps.
+
+       ----nnoo--rreebbuuiilldd
+              If the formula specifies a rebuild version, remove it from the
+              generated DSL.
+
+       ----kkeeeepp--oolldd
+              If the formula specifies a rebuild version, attempt to preserve
+              its value in the generated DSL.
+
+       ----jjssoonn Write bottle information to a JSON file, which can be used as
+              the value for ----mmeerrggee.
+
+       ----mmeerrggee
+              Generate an updated bottle block for a formula and optionally
+              merge it into the formula file. Instead of a formula name,
+              requires the path to a JSON file generated with bbrreeww bboottttllee
+              ----jjssoonn _f_o_r_m_u_l_a.
+
+       ----wwrriittee
+              Write changes to the formula file. A new commit will be
+              generated unless ----nnoo--ccoommmmiitt is passed.
+
+       ----nnoo--ccoommmmiitt
+              When passed with ----wwrriittee, a new commit will not generated after
+              writing changes to the formula file.
+
+       ----oonnllyy--jjssoonn--ttaabb
+              When passed with ----jjssoonn, the tab will be written to the JSON
+              file but not the bottle.
+
+       ----nnoo--aallll--cchheecckkss
+              Don’t try to create an aallll bottle or stop a no-change upload.
+
+       ----ccoommmmiitttteerr
+              Specify a committer name and email in ggiitt’s standard author
+              format.
+
+       ----rroooott--uurrll
+              Use the specified _U_R_L as the root of the bottle’s URL instead of
+              Homebrew’s default.
+
+       ----rroooott--uurrll--uussiinngg
+              Use the specified download strategy class for downloading the
+              bottle’s URL instead of Homebrew’s default.
+
+   bbuummpp [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a|_c_a_s_k ...]
+       Displays out-of-date packages and the latest version available. If the
+       returned current and livecheck versions differ or when querying
+       specific packages, also displays whether a pull request has been opened
+       with the URL.
+
+       ----ffuullll--nnaammee
+              Print formulae/casks with fully-qualified names.
+
+       ----nnoo--ppuullll--rreeqquueessttss
+              Do not retrieve pull requests from GitHub.
+
+       ----ffoorrmmuullaa
+              Check only formulae.
+
+       ----ccaasskk Check only casks.
+
+       ----eevvaall--aallll
+              Evaluate all formulae and casks.
+
+       ----rreeppoollooggyy
+              Use Repology to check for outdated packages.
+
+       ----ttaapp  Check formulae and casks within the given tap, specified as
+              _u_s_e_r//_r_e_p_o.
+
+       ----iinnssttaalllleedd
+              Check formulae and casks that are currently installed.
+
+       ----nnoo--ffoorrkk
+              Don’t try to fork the repository.
+
+       ----ooppeenn--pprr
+              Open a pull request for the new version if none have been opened
+              yet.
+
+       ----ssttaarrtt--wwiitthh
+              Letter or word that the list of package results should
+              alphabetically follow.
+
+   bbuummpp--ccaasskk--pprr [_o_p_t_i_o_n_s] _c_a_s_k
+       Create a pull request to update _c_a_s_k with a new version.
+
+       A best effort to determine the _S_H_A_-_2_5_6 will be made if the value is not
+       supplied by the user.
+
+       --nn, ----ddrryy--rruunn
+              Print what would be done rather than doing it.
+
+       ----wwrriittee--oonnllyy
+              Make the expected file modifications without taking any Git
+              actions.
+
+       ----ccoommmmiitt
+              When passed with ----wwrriittee--oonnllyy, generate a new commit after
+              writing changes to the cask file.
+
+       ----nnoo--aauuddiitt
+              Don’t run bbrreeww aauuddiitt before opening the PR.
+
+       ----nnoo--ssttyyllee
+              Don’t run bbrreeww ssttyyllee ----ffiixx before opening the PR.
+
+       ----nnoo--bbrroowwssee
+              Print the pull request URL instead of opening in a browser.
+
+       ----nnoo--ffoorrkk
+              Don’t try to fork the repository.
+
+       ----vveerrssiioonn
+              Specify the new _v_e_r_s_i_o_n for the cask.
+
+       ----vveerrssiioonn--aarrmm
+              Specify the new cask _v_e_r_s_i_o_n for the ARM architecture.
+
+       ----vveerrssiioonn--iinntteell
+              Specify the new cask _v_e_r_s_i_o_n for the Intel architecture.
+
+       ----mmeessssaaggee
+              Prepend _m_e_s_s_a_g_e to the default pull request message.
+
+       ----uurrll  Specify the _U_R_L for the new download.
+
+       ----sshhaa225566
+              Specify the _S_H_A_-_2_5_6 checksum of the new download.
+
+       ----ffoorrkk--oorrgg
+              Use the specified GitHub organization for forking.
+
+   bbuummpp--ffoorrmmuullaa--pprr [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a]
+       Create a pull request to update _f_o_r_m_u_l_a with a new URL or a new tag.
+
+       If a _U_R_L is specified, the _S_H_A_-_2_5_6 checksum of the new download should
+       also be specified. A best effort to determine the _S_H_A_-_2_5_6 will be made
+       if not supplied by the user.
+
+       If a _t_a_g is specified, the Git commit _r_e_v_i_s_i_o_n corresponding to that
+       tag should also be specified. A best effort to determine the _r_e_v_i_s_i_o_n
+       will be made if the value is not supplied by the user.
+
+       If a _v_e_r_s_i_o_n is specified, a best effort to determine the _U_R_L and
+       _S_H_A_-_2_5_6 or the _t_a_g and _r_e_v_i_s_i_o_n will be made if both values are not
+       supplied by the user.
+
+       _N_o_t_e_: this command cannot be used to transition a formula from a
+       URL-and-SHA-256 style specification into a tag-and-revision style
+       specification, nor vice versa. It must use whichever style
+       specification the formula already uses.
+
+       --nn, ----ddrryy--rruunn
+              Print what would be done rather than doing it.
+
+       ----wwrriittee--oonnllyy
+              Make the expected file modifications without taking any Git
+              actions.
+
+       ----ccoommmmiitt
+              When passed with ----wwrriittee--oonnllyy, generate a new commit after
+              writing changes to the formula file.
+
+       ----nnoo--aauuddiitt
+              Don’t run bbrreeww aauuddiitt before opening the PR.
+
+       ----ssttrriicctt
+              Run bbrreeww aauuddiitt ----ssttrriicctt before opening the PR.
+
+       ----oonnlliinnee
+              Run bbrreeww aauuddiitt ----oonnlliinnee before opening the PR.
+
+       ----nnoo--bbrroowwssee
+              Print the pull request URL instead of opening in a browser.
+
+       ----nnoo--ffoorrkk
+              Don’t try to fork the repository.
+
+       ----mmiirrrroorr
+              Use the specified _U_R_L as a mirror URL. If _U_R_L is a
+              comma-separated list of URLs, multiple mirrors will be added.
+
+       ----ffoorrkk--oorrgg
+              Use the specified GitHub organization for forking.
+
+       ----vveerrssiioonn
+              Use the specified _v_e_r_s_i_o_n to override the value parsed from the
+              URL or tag. Note that ----vveerrssiioonn==00 can be used to delete an
+              existing version override from a formula if it has become
+              redundant.
+
+       ----mmeessssaaggee
+              Prepend _m_e_s_s_a_g_e to the default pull request message.
+
+       ----uurrll  Specify the _U_R_L for the new download. If a _U_R_L is specified, the
+              _S_H_A_-_2_5_6 checksum of the new download should also be specified.
+
+       ----sshhaa225566
+              Specify the _S_H_A_-_2_5_6 checksum of the new download.
+
+       ----ttaagg  Specify the new git commit _t_a_g for the formula.
+
+       ----rreevviissiioonn
+              Specify the new commit _r_e_v_i_s_i_o_n corresponding to the specified
+              git _t_a_g or specified _v_e_r_s_i_o_n.
+
+       --ff, ----ffoorrccee
+              Remove all mirrors if ----mmiirrrroorr was not specified.
+
+       ----iinnssttaallll--ddeeppeennddeenncciieess
+              Install missing dependencies required to update resources.
+
+       ----ppyytthhoonn--ppaacckkaaggee--nnaammee
+              Use the specified _p_a_c_k_a_g_e_-_n_a_m_e when finding Python resources for
+              _f_o_r_m_u_l_a. If no package name is specified, it will be inferred
+              from the formula’s stable URL.
+
+       ----ppyytthhoonn--eexxttrraa--ppaacckkaaggeess
+              Include these additional Python packages when finding resources.
+
+       ----ppyytthhoonn--eexxcclluuddee--ppaacckkaaggeess
+              Exclude these Python packages when finding resources.
+
+   bbuummpp--rreevviissiioonn [_o_p_t_i_o_n_s] _f_o_r_m_u_l_a [...]
+       Create a commit to increment the revision of _f_o_r_m_u_l_a. If no revision is
+       present, “revision 1” will be added.
+
+       --nn, ----ddrryy--rruunn
+              Print what would be done rather than doing it.
+
+       ----rreemmoovvee--bboottttllee--bblloocckk
+              Remove the bottle block in addition to bumping the revision.
+
+       ----wwrriittee--oonnllyy
+              Make the expected file modifications without taking any Git
+              actions.
+
+       ----mmeessssaaggee
+              Append _m_e_s_s_a_g_e to the default commit message.
+
+   bbuummpp--uunnvveerrssiioonneedd--ccaasskkss [_o_p_t_i_o_n_s] _c_a_s_k|_t_a_p [...]
+       Check all casks with unversioned URLs in a given _t_a_p for updates.
+
+       --nn, ----ddrryy--rruunn
+              Do everything except caching state and opening pull requests.
+
+       ----lliimmiitt
+              Maximum runtime in minutes.
+
+       ----ssttaattee--ffiillee
+              File for caching state.
+
+   ccaatt [----ffoorrmmuullaa] [----ccaasskk] _f_o_r_m_u_l_a|_c_a_s_k [...]
+       Display the source of a _f_o_r_m_u_l_a or _c_a_s_k.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+   ccoonnttrriibbuuttiioonnss [--user=_e_m_a_i_l_|_u_s_e_r_n_a_m_e] [_-_-_r_e_p_o_s_i_t_o_r_i_e_s==] [_-_-_c_s_v]
+       Summarise contributions to Homebrew repositories.
+
+       ----rreeppoossiittoorriieess
+              Specify a comma-separated list of repositories to search.
+              Supported repositories: bbrreeww, ccoorree, ccaasskk, aalliiaasseess, bbuunnddllee,
+              ccoommmmaanndd--nnoott--ffoouunndd, tteesstt--bboott and sseerrvviicceess. Omitting this flag, or
+              specifying ----rreeppoossiittoorriieess==pprriimmaarryy, searches only the main
+              repositories: brew,core,cask. Specifying ----rreeppoossiittoorriieess==aallll,
+              searches all repositories.
+
+       ----ffrroomm Date (ISO-8601 format) to start searching contributions.
+              Omitting this flag searches the last year.
+
+       ----ttoo   Date (ISO-8601 format) to stop searching contributions.
+
+       ----uusseerr Specify a comma-separated list of GitHub usernames or email
+              addresses to find contributions from. Omitting this flag
+              searches maintainers.
+
+       ----ccssvv  Print a CSV of contributions across repositories over the time
+              period.
+
+   ccrreeaattee [_o_p_t_i_o_n_s] _U_R_L
+       Generate a formula or, with ----ccaasskk, a cask for the downloadable file at
+       _U_R_L and open it in the editor. Homebrew will attempt to automatically
+       derive the formula name and version, but if it fails, you’ll have to
+       make your own template. The wwggeett formula serves as a simple example.
+       For the complete API, see: <https://rubydoc.brew.sh/Formula>
+
+       ----aauuttoottoooollss
+              Create a basic template for an Autotools-style build.
+
+       ----ccaasskk Create a basic template for a cask.
+
+       ----ccmmaakkee
+              Create a basic template for a CMake-style build.
+
+       ----ccrryyssttaall
+              Create a basic template for a Crystal build.
+
+       ----ggoo   Create a basic template for a Go build.
+
+       ----mmeessoonn
+              Create a basic template for a Meson-style build.
+
+       ----nnooddee Create a basic template for a Node build.
+
+       ----ppeerrll Create a basic template for a Perl build.
+
+       ----ppyytthhoonn
+              Create a basic template for a Python build.
+
+       ----rruubbyy Create a basic template for a Ruby build.
+
+       ----rruusstt Create a basic template for a Rust build.
+
+       ----nnoo--ffeettcchh
+              Homebrew will not download _U_R_L to the cache and will thus not
+              add its SHA-256 to the formula for you, nor will it check the
+              GitHub API for GitHub projects (to fill out its description and
+              homepage).
+
+       ----HHEEAADD Indicate that _U_R_L points to the package’s repository rather than
+              a file.
+
+       ----sseett--nnaammee
+              Explicitly set the _n_a_m_e of the new formula or cask.
+
+       ----sseett--vveerrssiioonn
+              Explicitly set the _v_e_r_s_i_o_n of the new formula or cask.
+
+       ----sseett--lliicceennssee
+              Explicitly set the _l_i_c_e_n_s_e of the new formula.
+
+       ----ttaapp  Generate the new formula within the given tap, specified as
+              _u_s_e_r//_r_e_p_o.
+
+       --ff, ----ffoorrccee
+              Ignore errors for disallowed formula names and names that shadow
+              aliases.
+
+   ddeebbuuggggeerr [----ooppeenn] _c_o_m_m_a_n_d [...]
+       Run the specified Homebrew command in debug mode.
+
+       To pass flags to the command, use ---- to separate them from the bbrreeww
+       flags. For example: bbrreeww ddeebbuuggggeerr ---- lliisstt ----ffoorrmmuullaa.
+
+       --OO, ----ooppeenn
+              Start remote debugging over a Unix socket.
+
+   ddiissppaattcchh--bbuuiilldd--bboottttllee [_o_p_t_i_o_n_s] _f_o_r_m_u_l_a [...]
+       Build bottles for these formulae with GitHub Actions.
+
+       ----ttaapp  Target tap repository (default: hhoommeebbrreeww//ccoorree).
+
+       ----ttiimmeeoouutt
+              Build timeout (in minutes, default: 60).
+
+       ----iissssuuee
+              If specified, post a comment to this issue number if the job
+              fails.
+
+       ----mmaaccooss
+              macOS version (or comma-separated list of versions) the bottle
+              should be built for.
+
+       ----wwoorrkkffllooww
+              Dispatch specified workflow (default:
+              ddiissppaattcchh--bbuuiilldd--bboottttllee..yymmll).
+
+       ----uuppllooaadd
+              Upload built bottles.
+
+       ----lliinnuuxx
+              Dispatch bottle for Linux (using GitHub runners).
+
+       ----lliinnuuxx--sseellff--hhoosstteedd
+              Dispatch bottle for Linux (using self-hosted runner).
+
+       ----lliinnuuxx--wwhheeeezzyy
+              Use Debian Wheezy container for building the bottle on Linux.
+
+   eeddiitt [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a|_c_a_s_k|_t_a_p ...]
+       Open a _f_o_r_m_u_l_a, _c_a_s_k or _t_a_p in the editor set by EEDDIITTOORR or
+       HHOOMMEEBBRREEWW__EEDDIITTOORR, or open the Homebrew repository for editing if no
+       argument is provided.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+       ----pprriinntt--ppaatthh
+              Print the file path to be edited, without opening an editor.
+
+   eexxttrraacctt [----vveerrssiioonn==] [----ggiitt--rreevviissiioonn==] [----ffoorrccee] _f_o_r_m_u_l_a _t_a_p
+       Look through repository history to find the most recent version of
+       _f_o_r_m_u_l_a and create a copy in _t_a_p. Specifically, the command will create
+       the new formula file at _t_a_p//FFoorrmmuullaa//_f_o_r_m_u_l_a@@_v_e_r_s_i_o_n..rrbb. If the tap is
+       not installed yet, attempt to install/clone the tap before continuing.
+       To extract a formula from a tap that is not hhoommeebbrreeww//ccoorree use its
+       fully-qualified form of _u_s_e_r//_r_e_p_o//_f_o_r_m_u_l_a.
+
+       ----ggiitt--rreevviissiioonn
+              Search for the specified _v_e_r_s_i_o_n of _f_o_r_m_u_l_a starting at _r_e_v_i_s_i_o_n
+              instead of HEAD.
+
+       ----vveerrssiioonn
+              Extract the specified _v_e_r_s_i_o_n of _f_o_r_m_u_l_a instead of the most
+              recent.
+
+       --ff, ----ffoorrccee
+              Overwrite the destination formula if it already exists.
+
+   ffoorrmmuullaa _f_o_r_m_u_l_a [...]
+       Display the path where _f_o_r_m_u_l_a is located.
+
+   ggeenneerraattee--ccaasskk--aappii [----ddrryy--rruunn]
+       Generate hhoommeebbrreeww//ccaasskk API data files for <https://formulae.brew.sh>.
+       The generated files are written to the current directory.
+
+       --nn, ----ddrryy--rruunn
+              Generate API data without writing it to files.
+
+   ggeenneerraattee--ffoorrmmuullaa--aappii [----ddrryy--rruunn]
+       Generate hhoommeebbrreeww//ccoorree API data files for <https://formulae.brew.sh>.
+       The generated files are written to the current directory.
+
+       --nn, ----ddrryy--rruunn
+              Generate API data without writing it to files.
+
+   ggeenneerraattee--mmaann--ccoommpplleettiioonnss
+       Generate Homebrew’s manpages and shell completions.
+
+   iinnssttaallll--bbuunnddlleerr--ggeemmss [----ggrroouuppss==] [----aadddd--ggrroouuppss==]
+       Install Homebrew’s Bundler gems.
+
+       ----ggrroouuppss
+              Installs the specified comma-separated list of gem groups
+              (default: last used). Replaces any previously installed groups.
+
+       ----aadddd--ggrroouuppss
+              Installs the specified comma-separated list of gem groups, in
+              addition to those already installed.
+
+   iirrbb [----eexxaammpplleess] [----pprryy]
+       Enter the interactive Homebrew Ruby shell.
+
+       ----eexxaammpplleess
+              Show several examples.
+
+       ----pprryy  Use Pry instead of IRB. Implied if HHOOMMEEBBRREEWW__PPRRYY is set.
+
+   lliinnkkaaggee [_o_p_t_i_o_n_s] [_i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a ...]
+       Check the library links from the given _f_o_r_m_u_l_a kegs. If no _f_o_r_m_u_l_a are
+       provided, check all kegs. Raises an error if run on uninstalled
+       formulae.
+
+       ----tteesstt Show only missing libraries and exit with a non-zero status if
+              any missing libraries are found.
+
+       ----ssttrriicctt
+              Exit with a non-zero status if any undeclared dependencies with
+              linkage are found.
+
+       ----rreevveerrssee
+              For every library that a keg references, print its dylib path
+              followed by the binaries that link to it.
+
+       ----ccaacchheedd
+              Print the cached linkage values stored in HHOOMMEEBBRREEWW__CCAACCHHEE, set by
+              a previous bbrreeww lliinnkkaaggee run.
+
+   lliivveecchheecckk,, llcc [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a|_c_a_s_k ...]
+       Check for newer versions of formulae and/or casks from upstream. If no
+       formula or cask argument is passed, the list of formulae and casks to
+       check is taken from HHOOMMEEBBRREEWW__LLIIVVEECCHHEECCKK__WWAATTCCHHLLIISSTT or
+       ~~//..hhoommeebbrreeww//lliivveecchheecckk__wwaattcchhlliisstt..ttxxtt.
+
+       ----ffuullll--nnaammee
+              Print formulae and casks with fully-qualified names.
+
+       ----ttaapp  Check formulae and casks within the given tap, specified as
+              _u_s_e_r//_r_e_p_o.
+
+       ----eevvaall--aallll
+              Evaluate all available formulae and casks, whether installed or
+              not, to check them.
+
+       ----iinnssttaalllleedd
+              Check formulae and casks that are currently installed.
+
+       ----nneewweerr--oonnllyy
+              Show the latest version only if it’s newer than the
+              formula/cask.
+
+       ----jjssoonn Output information in JSON format.
+
+       --rr, ----rreessoouurrcceess
+              Also check resources for formulae.
+
+       --qq, ----qquuiieett
+              Suppress warnings, don’t print a progress bar for JSON output.
+
+       ----ffoorrmmuullaa
+              Only check formulae.
+
+       ----ccaasskk Only check casks.
+
+       ----eexxttrraacctt--pplliisstt
+              Enable checking multiple casks with ExtractPlist strategy.
+
+   pprr--aauuttoommeerrggee [_o_p_t_i_o_n_s]
+       Find pull requests that can be automatically merged using bbrreeww
+       pprr--ppuubblliisshh.
+
+       ----ttaapp  Target tap repository (default: hhoommeebbrreeww//ccoorree).
+
+       ----wwoorrkkffllooww
+              Workflow file to use with bbrreeww pprr--ppuubblliisshh.
+
+       ----wwiitthh--llaabbeell
+              Pull requests must have this label.
+
+       ----wwiitthhoouutt--llaabbeellss
+              Pull requests must not have these labels (default: ddoo nnoott mmeerrggee,
+              nneeww ffoorrmmuullaa, aauuttoommeerrggee--sskkiipp, pprree--rreelleeaassee,
+              CCII--ppuubblliisshheedd--bboottttllee--ccoommmmiittss).
+
+       ----wwiitthhoouutt--aapppprroovvaall
+              Pull requests do not require approval to be merged.
+
+       ----ppuubblliisshh
+              Run bbrreeww pprr--ppuubblliisshh on matching pull requests.
+
+       ----aauuttoossqquuaasshh
+              Instruct bbrreeww pprr--ppuubblliisshh to automatically reformat and reword
+              commits in the pull request to the preferred format.
+
+       ----iiggnnoorree--ffaaiilluurreess
+              Include pull requests that have failing status checks.
+
+   pprr--ppuubblliisshh [_o_p_t_i_o_n_s] _p_u_l_l___r_e_q_u_e_s_t [...]
+       Publish bottles for a pull request with GitHub Actions. Requires write
+       access to the repository.
+
+       ----aauuttoossqquuaasshh
+              If supported on the target tap, automatically reformat and
+              reword commits to our preferred format.
+
+       ----llaarrggee--rruunnnneerr
+              Run the upload job on a large runner.
+
+       ----bbrraanncchh
+              Branch to use the workflow from (default: mmaasstteerr).
+
+       ----mmeessssaaggee
+              Message to include when autosquashing revision bumps, deletions
+              and rebuilds.
+
+       ----ttaapp  Target tap repository (default: hhoommeebbrreeww//ccoorree).
+
+       ----wwoorrkkffllooww
+              Target workflow filename (default: ppuubblliisshh--ccoommmmiitt--bboottttlleess..yymmll).
+
+   pprr--ppuullll [_o_p_t_i_o_n_s] _p_u_l_l___r_e_q_u_e_s_t [...]
+       Download and publish bottles and apply the bottle commit from a pull
+       request with artifacts generated by GitHub Actions. Requires write
+       access to the repository.
+
+       ----nnoo--uuppllooaadd
+              Download the bottles but don’t upload them.
+
+       ----nnoo--ccoommmmiitt
+              Do not generate a new commit before uploading.
+
+       ----nnoo--cchheerrrryy--ppiicckk
+              Do not cherry-pick commits from the pull request branch.
+
+       --nn, ----ddrryy--rruunn
+              Print what would be done rather than doing it.
+
+       ----cclleeaann
+              Do not amend the commits from pull requests.
+
+       ----kkeeeepp--oolldd
+              If the formula specifies a rebuild version, attempt to preserve
+              its value in the generated DSL.
+
+       ----aauuttoossqquuaasshh
+              Automatically reformat and reword commits in the pull request to
+              our preferred format.
+
+       ----bbrraanncchh--ookkaayy
+              Do not warn if pulling to a branch besides the repository
+              default (useful for testing).
+
+       ----rreessoollvvee
+              When a patch fails to apply, leave in progress and allow user to
+              resolve, instead of aborting.
+
+       ----wwaarrnn--oonn--uuppllooaadd--ffaaiilluurree
+              Warn instead of raising an error if the bottle upload fails.
+              Useful for repairing bottle uploads that previously failed.
+
+       ----rreettaaiinn--bboottttllee--ddiirr
+              Does not clean up the tmp directory for the bottle so it can be
+              used later.
+
+       ----ccoommmmiitttteerr
+              Specify a committer name and email in ggiitt’s standard author
+              format.
+
+       ----mmeessssaaggee
+              Message to include when autosquashing revision bumps, deletions
+              and rebuilds.
+
+       ----aarrttiiffaacctt--ppaatttteerrnn
+              Download artifacts with the specified pattern (default:
+              bboottttlleess{{,,__**}}).
+
+       ----ttaapp  Target tap repository (default: hhoommeebbrreeww//ccoorree).
+
+       ----rroooott--uurrll
+              Use the specified _U_R_L as the root of the bottle’s URL instead of
+              Homebrew’s default.
+
+       ----rroooott--uurrll--uussiinngg
+              Use the specified download strategy class for downloading the
+              bottle’s URL instead of Homebrew’s default.
+
+       ----wwoorrkkfflloowwss
+              Retrieve artifacts from the specified workflow (default:
+              tteessttss..yymmll). Can be a comma-separated list to include multiple
+              workflows.
+
+       ----iiggnnoorree--mmiissssiinngg--aarrttiiffaaccttss
+              Comma-separated list of workflows which can be ignored if they
+              have not been run.
+
+   pprr--uuppllooaadd [_o_p_t_i_o_n_s]
+       Apply the bottle commit and publish bottles to a host.
+
+       ----kkeeeepp--oolldd
+              If the formula specifies a rebuild version, attempt to preserve
+              its value in the generated DSL.
+
+       --nn, ----ddrryy--rruunn
+              Print what would be done rather than doing it.
+
+       ----nnoo--ccoommmmiitt
+              Do not generate a new commit before uploading.
+
+       ----wwaarrnn--oonn--uuppllooaadd--ffaaiilluurree
+              Warn instead of raising an error if the bottle upload fails.
+              Useful for repairing bottle uploads that previously failed.
+
+       ----uuppllooaadd--oonnllyy
+              Skip running bbrreeww bboottttllee before uploading.
+
+       ----ccoommmmiitttteerr
+              Specify a committer name and email in ggiitt’s standard author
+              format.
+
+       ----rroooott--uurrll
+              Use the specified _U_R_L as the root of the bottle’s URL instead of
+              Homebrew’s default.
+
+       ----rroooott--uurrll--uussiinngg
+              Use the specified download strategy class for downloading the
+              bottle’s URL instead of Homebrew’s default.
+
+   pprrooff [----ssttaacckkpprrooff] [----vveerrnniieerr] _c_o_m_m_a_n_d [...]
+       Run Homebrew with a Ruby profiler. For example, bbrreeww pprrooff rreeaaddaallll.
+
+       ----ssttaacckkpprrooff
+              Use ssttaacckkpprrooff instead of rruubbyy--pprrooff (the default).
+
+       ----vveerrnniieerr
+              Use vveerrnniieerr instead of rruubbyy--pprrooff (the default).
+
+   rreelleeaassee [----mmaajjoorr] [----mmiinnoorr]
+       Create a new draft Homebrew/brew release with the appropriate version
+       number and release notes.
+
+       By default, bbrreeww rreelleeaassee will bump the patch version number. Pass
+       ----mmaajjoorr or ----mmiinnoorr to bump the major or minor version numbers,
+       respectively. The command will fail if the previous major or minor
+       release was made less than one month ago.
+
+       _N_o_t_e_: Requires write access to the Homebrew/brew repository.
+
+       ----mmaajjoorr
+              Create a major release.
+
+       ----mmiinnoorr
+              Create a minor release.
+
+   rruubbooccoopp
+       Installs, configures and runs Homebrew’s rruubbooccoopp.
+
+   rruubbyy [_o_p_t_i_o_n_s] (--ee _t_e_x_t|_f_i_l_e)
+       Run a Ruby instance with Homebrew’s libraries loaded. For example, bbrreeww
+       rruubbyy --ee ""ppuuttss ::ggcccc..ff..ddeeppss"" or bbrreeww rruubbyy ssccrriipptt..rrbb.
+
+       Run e.g. bbrreeww rruubbyy ---- ----vveerrssiioonn to pass arbitrary arguments to rruubbyy.
+
+       --rr     Load a library using rreeqquuiirree.
+
+       --ee     Execute the given text string as a script.
+
+   rruubbyyddoocc [----oonnllyy--ppuubblliicc] [----ooppeenn]
+       Generate Homebrew’s RubyDoc documentation.
+
+       ----oonnllyy--ppuubblliicc
+              Only generate public API documentation.
+
+       ----ooppeenn Open generated documentation in a browser.
+
+   sshh [----eennvv==] [----ccmmdd==] [_f_i_l_e]
+       Enter an interactive shell for Homebrew’s build environment. Use
+       years-battle-hardened build logic to help your ..//ccoonnffiigguurree &&&& mmaakkee &&&&
+       mmaakkee iinnssttaallll and even your ggeemm iinnssttaallll succeed. Especially handy if you
+       run Homebrew in an Xcode-only configuration since it adds tools like
+       mmaakkee to your PPAATTHH which build systems would not find otherwise.
+
+       ----eennvv  Use the standard PPAATTHH instead of superenv’s when ssttdd is passed.
+
+       --cc, ----ccmmdd
+              Execute commands in a non-interactive shell.
+
+   ssttyyllee [_o_p_t_i_o_n_s] [_f_i_l_e|_t_a_p|_f_o_r_m_u_l_a|_c_a_s_k ...]
+       Check formulae or files for conformance to Homebrew style guidelines.
+
+       Lists of _f_i_l_e, _t_a_p and _f_o_r_m_u_l_a may not be combined. If none are
+       provided, ssttyyllee will run style checks on the whole Homebrew library,
+       including core code and all formulae.
+
+       ----ffiixx  Fix style violations automatically using RuboCop’s auto-correct
+              feature.
+
+       ----rreesseett--ccaacchhee
+              Reset the RuboCop cache.
+
+       ----ffoorrmmuullaa
+              Treat all named arguments as formulae.
+
+       ----ccaasskk Treat all named arguments as casks.
+
+       ----oonnllyy--ccooppss
+              Specify a comma-separated _c_o_p_s list to check for violations of
+              only the listed RuboCop cops.
+
+       ----eexxcceepptt--ccooppss
+              Specify a comma-separated _c_o_p_s list to skip checking for
+              violations of the listed RuboCop cops.
+
+   ttaapp--nneeww [_o_p_t_i_o_n_s] _u_s_e_r//_r_e_p_o
+       Generate the template files for a new tap.
+
+       ----nnoo--ggiitt
+              Don’t initialize a Git repository for the tap.
+
+       ----ppuullll--llaabbeell
+              Label name for pull requests ready to be pulled (default:
+              pprr--ppuullll).
+
+       ----bbrraanncchh
+              Initialize Git repository and setup GitHub Actions workflows
+              with the specified branch name (default: mmaaiinn).
+
+       ----ggiitthhuubb--ppaacckkaaggeess
+              Upload bottles to GitHub Packages.
+
+   tteesstt [_o_p_t_i_o_n_s] _i_n_s_t_a_l_l_e_d___f_o_r_m_u_l_a [...]
+       Run the test method provided by an installed formula. There is no
+       standard output or return code, but generally it should notify the user
+       if something is wrong with the installed formula.
+
+       _E_x_a_m_p_l_e_: bbrreeww iinnssttaallll jjrruubbyy &&&& bbrreeww tteesstt jjrruubbyy
+
+       --ff, ----ffoorrccee
+              Test formulae even if they are unlinked.
+
+       ----HHEEAADD Test the HEAD version of a formula.
+
+       ----kkeeeepp--ttmmpp
+              Retain the temporary files created for the test.
+
+       ----rreettrryy
+              Retry if a testing fails.
+
+   tteessttss [_o_p_t_i_o_n_s]
+       Run Homebrew’s unit and integration tests.
+
+       ----ccoovveerraaggee
+              Generate code coverage reports.
+
+       ----ggeenneerriicc
+              Run only OS-agnostic tests.
+
+       ----oonnlliinnee
+              Include tests that use the GitHub API and tests that use any of
+              the taps for official external commands.
+
+       ----ddeebbuugg
+              Enable debugging using rruubbyy//ddeebbuugg, or surface the standard
+              ooddeebbuugg output.
+
+       ----cchhaannggeedd
+              Only runs tests on files that were changed from the master
+              branch.
+
+       ----ffaaiill--ffaasstt
+              Exit early on the first failing test.
+
+       ----oonnllyy Run only <<tteesstt__ssccrriipptt>>__ssppeecc..rrbb. Appending ::<<lliinnee__nnuummbbeerr>> will
+              start at a specific line.
+
+       ----pprrooffiillee
+              Run the test suite serially to find the _n slowest tests.
+
+       ----sseeeedd Randomise tests with the specified _v_a_l_u_e instead of a random
+              seed.
+
+   ttyyppeecchheecckk,, ttcc [_o_p_t_i_o_n_s] [_t_a_p ...]
+       Check for typechecking errors using Sorbet.
+
+       ----ffiixx  Automatically fix type errors.
+
+       --qq, ----qquuiieett
+              Silence all non-critical errors.
+
+       ----uuppddaattee
+              Update RBI files.
+
+       ----uuppddaattee--aallll
+              Update all RBI files rather than just updated gems.
+
+       ----ssuuggggeesstt--ttyyppeedd
+              Try upgrading ttyyppeedd sigils.
+
+       ----llsspp  Start the Sorbet LSP server.
+
+       ----ddiirr  Typecheck all files in a specific directory.
+
+       ----ffiillee Typecheck a single file.
+
+       ----iiggnnoorree
+              Ignores input files that contain the given string in their paths
+              (relative to the input path passed to Sorbet).
+
+   uunnbboottttlleedd [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a ...]
+       Show the unbottled dependents of formulae.
+
+       ----ttaagg  Use the specified bottle tag (e.g. bbiigg__ssuurr) instead of the
+              current OS.
+
+       ----ddeeppeennddeennttss
+              Skip getting analytics data and sort by number of dependents
+              instead.
+
+       ----ttoottaall
+              Print the number of unbottled and total formulae.
+
+       ----lloosstt Print the hhoommeebbrreeww//ccoorree commits where bottles were lost in the
+              last week.
+
+       ----eevvaall--aallll
+              Evaluate all available formulae and casks, whether installed or
+              not, to check them. Implied if HHOOMMEEBBRREEWW__EEVVAALL__AALLLL is set.
+
+   uunnppaacckk [_o_p_t_i_o_n_s] _f_o_r_m_u_l_a [...]
+       Unpack the source files for _f_o_r_m_u_l_a into subdirectories of the current
+       working directory.
+
+       ----ddeessttddiirr
+              Create subdirectories in the directory named by _p_a_t_h instead.
+
+       ----ppaattcchh
+              Patches for _f_o_r_m_u_l_a will be applied to the unpacked source.
+
+       --gg, ----ggiitt
+              Initialise a Git repository in the unpacked source. This is
+              useful for creating patches for the software.
+
+       --ff, ----ffoorrccee
+              Overwrite the destination directory if it already exists.
+
+   uuppddaattee--lliicceennssee--ddaattaa
+       Update SPDX license data in the Homebrew repository.
+
+   uuppddaattee--mmaaiinnttaaiinneerrss
+       Update the list of maintainers in the HHoommeebbrreeww//bbrreeww README.
+
+   uuppddaattee--ppyytthhoonn--rreessoouurrcceess [_o_p_t_i_o_n_s] _f_o_r_m_u_l_a [...]
+       Update versions for PyPI resource blocks in _f_o_r_m_u_l_a.
+
+       --pp, ----pprriinntt--oonnllyy
+              Print the updated resource blocks instead of changing _f_o_r_m_u_l_a.
+
+       --ss, ----ssiilleenntt
+              Suppress any output.
+
+       ----iiggnnoorree--nnoonn--ppyyppii--ppaacckkaaggeess
+              Don’t fail if _f_o_r_m_u_l_a is not a PyPI package.
+
+       ----iinnssttaallll--ddeeppeennddeenncciieess
+              Install missing dependencies required to update resources.
+
+       ----vveerrssiioonn
+              Use the specified _v_e_r_s_i_o_n when finding resources for _f_o_r_m_u_l_a. If
+              no version is specified, the current version for _f_o_r_m_u_l_a will be
+              used.
+
+       ----ppaacckkaaggee--nnaammee
+              Use the specified _p_a_c_k_a_g_e_-_n_a_m_e when finding resources for
+              _f_o_r_m_u_l_a. If no package name is specified, it will be inferred
+              from the formula’s stable URL.
+
+       ----eexxttrraa--ppaacckkaaggeess
+              Include these additional packages when finding resources.
+
+       ----eexxcclluuddee--ppaacckkaaggeess
+              Exclude these packages when finding resources.
+
+   uuppddaattee--ssppoonnssoorrss
+       Update the list of GitHub Sponsors in the HHoommeebbrreeww//bbrreeww README.
+
+   uuppddaattee--tteesstt [_o_p_t_i_o_n_s]
+       Run a test of bbrreeww uuppddaattee with a new repository clone. If no options
+       are passed, use oorriiggiinn//mmaasstteerr as the start commit.
+
+       ----ttoo--ttaagg
+              Set HHOOMMEEBBRREEWW__UUPPDDAATTEE__TTOO__TTAAGG to test updating between tags.
+
+       ----kkeeeepp--ttmmpp
+              Retain the temporary directory containing the new repository
+              clone.
+
+       ----ccoommmmiitt
+              Use the specified _c_o_m_m_i_t as the start commit.
+
+       ----bbeeffoorree
+              Use the commit at the specified _d_a_t_e as the start commit.
+
+   vveennddoorr--ggeemmss [----uuppddaattee==] [----nnoo--ccoommmmiitt]
+       Install and commit Homebrew’s vendored gems.
+
+       ----uuppddaattee
+              Update the specified list of vendored gems to the latest
+              version.
+
+       ----nnoo--ccoommmmiitt
+              Do not generate a new commit upon completion.
+
+GGLLOOBBAALL CCAASSKK OOPPTTIIOONNSS
+       These options are applicable to the iinnssttaallll, rreeiinnssttaallll and uuppggrraaddee
+       subcommands with the ----ccaasskk switch.
+
+       ----aappppddiirr
+              Target location for Applications (default: //AApppplliiccaattiioonnss).
+
+       ----kkeeyybbooaarrdd--llaayyoouuttddiirr
+              Target location for Keyboard Layouts (default: //LLiibbrraarryy//KKeeyybbooaarrdd
+              LLaayyoouuttss).
+
+       ----ccoolloorrppiicckkeerrddiirr
+              Target location for Color Pickers (default:
+              ~~//LLiibbrraarryy//CCoolloorrPPiicckkeerrss).
+
+       ----pprreeffppaanneeddiirr
+              Target location for Preference Panes (default:
+              ~~//LLiibbrraarryy//PPrreeffeerreenncceePPaanneess).
+
+       ----qqllpplluuggiinnddiirr
+              Target location for Quick Look Plugins (default:
+              ~~//LLiibbrraarryy//QQuuiicckkLLooookk).
+
+       ----mmddiimmppoorrtteerrddiirr
+              Target location for Spotlight Plugins (default:
+              ~~//LLiibbrraarryy//SSppoottlliigghhtt).
+
+       ----ddiiccttiioonnaarryyddiirr
+              Target location for Dictionaries (default:
+              ~~//LLiibbrraarryy//DDiiccttiioonnaarriieess).
+
+       ----ffoonnttddiirr
+              Target location for Fonts (default: ~~//LLiibbrraarryy//FFoonnttss).
+
+       ----sseerrvviicceeddiirr
+              Target location for Services (default: ~~//LLiibbrraarryy//SSeerrvviicceess).
+
+       ----iinnppuutt--mmeetthhooddddiirr
+              Target location for Input Methods (default: ~~//LLiibbrraarryy//IInnppuutt
+              MMeetthhooddss).
+
+       ----iinntteerrnneett--pplluuggiinnddiirr
+              Target location for Internet Plugins (default:
+              ~~//LLiibbrraarryy//IInntteerrnneett PPlluugg--IInnss).
+
+       ----aauuddiioo--uunniitt--pplluuggiinnddiirr
+              Target location for Audio Unit Plugins (default:
+              ~~//LLiibbrraarryy//AAuuddiioo//PPlluugg--IInnss//CCoommppoonneennttss).
+
+       ----vvsstt--pplluuggiinnddiirr
+              Target location for VST Plugins (default:
+              ~~//LLiibbrraarryy//AAuuddiioo//PPlluugg--IInnss//VVSSTT).
+
+       ----vvsstt33--pplluuggiinnddiirr
+              Target location for VST3 Plugins (default:
+              ~~//LLiibbrraarryy//AAuuddiioo//PPlluugg--IInnss//VVSSTT33).
+
+       ----ssccrreeeenn--ssaavveerrddiirr
+              Target location for Screen Savers (default: ~~//LLiibbrraarryy//SSccrreeeenn
+              SSaavveerrss).
+
+       ----llaanngguuaaggee
+              Comma-separated list of language codes to prefer for cask
+              installation. The first matching language is used, otherwise it
+              reverts to the cask’s default language. The default value is the
+              language of your system.
+
+GGLLOOBBAALL OOPPTTIIOONNSS
+       These options are applicable across multiple subcommands.
+
+       --dd, ----ddeebbuugg
+              Display any debugging information.
+
+       --qq, ----qquuiieett
+              Make some output more quiet.
+
+       --vv, ----vveerrbboossee
+              Make some output more verbose.
+
+       --hh, ----hheellpp
+              Show this message.
+
+OOFFFFIICCIIAALL EEXXTTEERRNNAALL CCOOMMMMAANNDDSS
+   aalliiaass [_a_l_i_a_s ... | _a_l_i_a_s=_c_o_m_m_a_n_d]
+       Show existing aliases. If no aliases are given, print the whole list.
+
+       ----eeddiitt Edit aliases in a text editor. Either one or all aliases may be
+              opened at once. If the given alias doesn’t exist it’ll be
+              pre-populated with a template.
+
+   bbuunnddllee [_s_u_b_c_o_m_m_a_n_d]
+       Bundler for non-Ruby dependencies from Homebrew, Homebrew Cask, Mac App
+       Store, Whalebrew and Visual Studio Code.
+
+       bbrreeww bbuunnddllee [iinnssttaallll]
+              Install and upgrade (by default) all dependencies from the
+              BBrreewwffiillee.
+
+       You can specify the BBrreewwffiillee location using ----ffiillee or by setting the
+       HHOOMMEEBBRREEWW__BBUUNNDDLLEE__FFIILLEE environment variable.
+
+       You can skip the installation of dependencies by adding space-separated
+       values to one or more of the following environment variables:
+       HHOOMMEEBBRREEWW__BBUUNNDDLLEE__BBRREEWW__SSKKIIPP, HHOOMMEEBBRREEWW__BBUUNNDDLLEE__CCAASSKK__SSKKIIPP,
+       HHOOMMEEBBRREEWW__BBUUNNDDLLEE__MMAASS__SSKKIIPP, HHOOMMEEBBRREEWW__BBUUNNDDLLEE__WWHHAALLEEBBRREEWW__SSKKIIPP,
+       HHOOMMEEBBRREEWW__BBUUNNDDLLEE__TTAAPP__SSKKIIPP.
+
+       bbrreeww bbuunnddllee will output a BBrreewwffiillee..lloocckk..jjssoonn in the same directory as
+       the BBrreewwffiillee if all dependencies are installed successfully. This
+       contains dependency and system status information which can be useful
+       for debugging bbrreeww bbuunnddllee failures and replicating a “last known good
+       build” state. You can opt-out of this behaviour by setting the
+       HHOOMMEEBBRREEWW__BBUUNNDDLLEE__NNOO__LLOOCCKK environment variable or passing the ----nnoo--lloocckk
+       option. You may wish to check this file into the same version control
+       system as your BBrreewwffiillee (or ensure your version control system ignores
+       it if you’d prefer to rely on debugging information from a local
+       machine).
+
+       bbrreeww bbuunnddllee dduummpp
+              Write all installed casks/formulae/images/taps into a BBrreewwffiillee
+              in the current directory.
+
+       bbrreeww bbuunnddllee cclleeaannuupp
+              Uninstall all dependencies not present in the BBrreewwffiillee.
+
+       This workflow is useful for maintainers or testers who regularly
+       install lots of formulae.
+
+       Unless ----ffoorrccee is passed, this returns a 1 exit code if anything would
+       be removed.
+
+       bbrreeww bbuunnddllee cchheecckk
+              Check if all dependencies present in the BBrreewwffiillee are installed.
+
+       This provides a successful exit code if everything is up-to-date,
+       making it useful for scripting.
+
+       bbrreeww bbuunnddllee lliisstt
+              List all dependencies present in the BBrreewwffiillee.
+
+       By default, only Homebrew formula dependencies are listed.
+
+       bbrreeww bbuunnddllee eexxeecc _c_o_m_m_a_n_d
+              Run an external command in an isolated build environment based
+              on the BBrreewwffiillee dependencies.
+
+       This sanitized build environment ignores unrequested dependencies,
+       which makes sure that things you didn’t specify in your BBrreewwffiillee won’t
+       get picked up by commands like bbuunnddllee iinnssttaallll, nnppmm iinnssttaallll, etc. It
+       will also add compiler flags which will help with finding keg-only
+       dependencies like ooppeennssssll, iiccuu44cc, etc.
+
+       ----ffiillee Read the BBrreewwffiillee from this location. Use ----ffiillee==-- to pipe to
+              stdin/stdout.
+
+       ----gglloobbaall
+              Read the BBrreewwffiillee from ~~//..BBrreewwffiillee or the
+              HHOOMMEEBBRREEWW__BBUUNNDDLLEE__FFIILLEE__GGLLOOBBAALL environment variable, if set.
+
+       --vv, ----vveerrbboossee
+              iinnssttaallll prints output from commands as they are run. cchheecckk lists
+              all missing dependencies.
+
+       ----nnoo--uuppggrraaddee
+              iinnssttaallll does not run bbrreeww uuppggrraaddee on outdated dependencies. Note
+              they may still be upgraded by bbrreeww iinnssttaallll if needed.
+
+       --ff, ----ffoorrccee
+              iinnssttaallll runs with ----ffoorrccee/----oovveerrwwrriittee. dduummpp overwrites an
+              existing BBrreewwffiillee. cclleeaannuupp actually performs its cleanup
+              operations.
+
+       ----cclleeaannuupp
+              iinnssttaallll performs cleanup operation, same as running cclleeaannuupp
+              ----ffoorrccee. This is enabled by default if
+              HHOOMMEEBBRREEWW__BBUUNNDDLLEE__IINNSSTTAALLLL__CCLLEEAANNUUPP is set and ----gglloobbaall is passed.
+
+       ----nnoo--lloocckk
+              iinnssttaallll does not output a BBrreewwffiillee..lloocckk..jjssoonn.
+
+       ----aallll  lliisstt all dependencies.
+
+       ----ffoorrmmuullaa
+              lliisstt or dduummpp Homebrew formula dependencies.
+
+       ----ccaasskk lliisstt or dduummpp Homebrew cask dependencies.
+
+       ----ttaapp  lliisstt or dduummpp Homebrew tap dependencies.
+
+       ----mmaass  lliisstt or dduummpp Mac App Store dependencies.
+
+       ----wwhhaalleebbrreeww
+              lliisstt or dduummpp Whalebrew dependencies.
+
+       ----vvssccooddee
+              lliisstt or dduummpp VSCode extensions.
+
+       ----nnoo--vvssccooddee
+              dduummpp without VSCode extensions. This is enabled by default if
+              HHOOMMEEBBRREEWW__BBUUNNDDLLEE__DDUUMMPP__NNOO__VVSSCCOODDEE is set.
+
+       ----ddeessccrriibbee
+              dduummpp adds a description comment above each line, unless the
+              dependency does not have a description. This is enabled by
+              default if HHOOMMEEBBRREEWW__BBUUNNDDLLEE__DDUUMMPP__DDEESSCCRRIIBBEE is set.
+
+       ----nnoo--rreessttaarrtt
+              dduummpp does not add rreessttaarrtt__sseerrvviiccee to formula lines.
+
+       ----zzaapp  cclleeaannuupp casks using the zzaapp command instead of uunniinnssttaallll.
+
+   ccoommmmaanndd--nnoott--ffoouunndd--iinniitt
+       Print instructions for setting up the command-not-found hook for your
+       shell. If the output is not to a tty, print the appropriate handler
+       script for your shell.
+
+   sseerrvviicceess [_s_u_b_c_o_m_m_a_n_d]
+       Manage background services with macOS’ llaauunncchhccttll(1) daemon manager or
+       Linux’s ssyysstteemmccttll(1) service manager.
+
+       If ssuuddoo is passed, operate on //LLiibbrraarryy//LLaauunncchhDDaaeemmoonnss or
+       //uussrr//lliibb//ssyysstteemmdd//ssyysstteemm (started at boot). Otherwise, operate on
+       ~~//LLiibbrraarryy//LLaauunncchhAAggeennttss or ~~//..ccoonnffiigg//ssyysstteemmdd//uusseerr (started at login).
+
+       [ssuuddoo] bbrreeww sseerrvviicceess [lliisstt] (----jjssoonn) (----ddeebbuugg)
+              List information about all managed services for the current user
+              (or root). Provides more output from Homebrew and llaauunncchhccttll(1)
+              or ssyysstteemmccttll(1) if run with ----ddeebbuugg.
+
+       [ssuuddoo] bbrreeww sseerrvviicceess iinnffoo (_f_o_r_m_u_l_a|----aallll|----jjssoonn)
+              List all managed services for the current user (or root).
+
+       [ssuuddoo] bbrreeww sseerrvviicceess rruunn (_f_o_r_m_u_l_a|----aallll)
+              Run the service _f_o_r_m_u_l_a without registering to launch at login
+              (or boot).
+
+       [ssuuddoo] bbrreeww sseerrvviicceess ssttaarrtt (_f_o_r_m_u_l_a|----aallll|----ffiillee==)
+              Start the service _f_o_r_m_u_l_a immediately and register it to launch
+              at login (or boot).
+
+       [ssuuddoo] bbrreeww sseerrvviicceess ssttoopp (_f_o_r_m_u_l_a|----aallll)
+              Stop the service _f_o_r_m_u_l_a immediately and unregister it from
+              launching at login (or boot).
+
+       [ssuuddoo] bbrreeww sseerrvviicceess kkiillll (_f_o_r_m_u_l_a|----aallll)
+              Stop the service _f_o_r_m_u_l_a immediately but keep it registered to
+              launch at login (or boot).
+
+       [ssuuddoo] bbrreeww sseerrvviicceess rreessttaarrtt (_f_o_r_m_u_l_a|----aallll)
+              Stop (if necessary) and start the service _f_o_r_m_u_l_a immediately
+              and register it to launch at login (or boot).
+
+       [ssuuddoo] bbrreeww sseerrvviicceess cclleeaannuupp
+              Remove all unused services.
+
+       ----ffiillee Use the service file from this location to ssttaarrtt the service.
+
+       ----ssuuddoo--sseerrvviiccee--uusseerr
+              When run as root on macOS, run the service(s) as this user.
+
+       ----mmaaxx--wwaaiitt
+              Wait at most this many seconds for ssttoopp to finish stopping a
+              service. Omit this flag or set this to zero (0) seconds to wait
+              indefinitely.
+
+       ----aallll  Run _s_u_b_c_o_m_m_a_n_d on all services.
+
+       ----jjssoonn Output as JSON.
+
+       ----nnoo--wwaaiitt
+              Don’t wait for ssttoopp to finish stopping the service.
+
+   tteesstt--bboott [_o_p_t_i_o_n_s] [_f_o_r_m_u_l_a]
+       Tests the full lifecycle of a Homebrew change to a tap (Git
+       repository). For example, for a GitHub Actions pull request that
+       changes a formula bbrreeww tteesstt--bboott will ensure the system is cleaned and
+       set up to test the formula, install the formula, run various tests and
+       checks on it, bottle (package) the binaries and test formulae that
+       depend on it to ensure they aren’t broken by these changes.
+
+       Only supports GitHub Actions as a CI provider. This is because Homebrew
+       uses GitHub Actions and it’s freely available for public and private
+       use with macOS and Linux workers.
+
+       ----ddrryy--rruunn
+              Print what would be done rather than doing it.
+
+       ----cclleeaannuupp
+              Clean all state from the Homebrew directory. Use with care!
+
+       ----sskkiipp--sseettuupp
+              Don’t check if the local system is set up correctly.
+
+       ----bbuuiilldd--ffrroomm--ssoouurrccee
+              Build from source rather than building bottles.
+
+       ----bbuuiilldd--ddeeppeennddeennttss--ffrroomm--ssoouurrccee
+              Build dependents from source rather than testing bottles.
+
+       ----jjuunniitt
+              generate a JUnit XML test results file.
+
+       ----kkeeeepp--oolldd
+              Run bbrreeww bboottttllee ----kkeeeepp--oolldd to build new bottles for a single
+              platform.
+
+       ----sskkiipp--rreellooccaattiioonn
+              Run bbrreeww bboottttllee ----sskkiipp--rreellooccaattiioonn to build new bottles that
+              don’t require relocation.
+
+       ----oonnllyy--jjssoonn--ttaabb
+              Run bbrreeww bboottttllee ----oonnllyy--jjssoonn--ttaabb to build new bottles that do not
+              contain a tab.
+
+       ----llooccaall
+              Ask Homebrew to write verbose logs under ..//llooggss// and set $$HHOOMMEE
+              to ..//hhoommee//
+
+       ----ttaapp  Use the Git repository of the given tap. Defaults to the core
+              tap for syntax checking.
+
+       ----ffaaiill--ffaasstt
+              Immediately exit on a failing step.
+
+       --vv, ----vveerrbboossee
+              Print test step output in real time. Has the side effect of
+              passing output as raw bytes instead of re-encoding in UTF-8.
+
+       ----tteesstt--ddeeffaauulltt--ffoorrmmuullaa
+              Use a default testing formula when not building a tap and no
+              other formulae are specified.
+
+       ----rroooott--uurrll
+              Use the specified _U_R_L as the root of the bottle’s URL instead of
+              Homebrew’s default.
+
+       ----ggiitt--nnaammee
+              Set the Git author/committer names to the given name.
+
+       ----ggiitt--eemmaaiill
+              Set the Git author/committer email to the given email.
+
+       ----ppuubblliisshh
+              Publish the uploaded bottles.
+
+       ----sskkiipp--oonnlliinnee--cchheecckkss
+              Don’t pass ----oonnlliinnee to bbrreeww aauuddiitt and skip bbrreeww lliivveecchheecckk.
+
+       ----sskkiipp--nneeww
+              Don’t pass ----nneeww to bbrreeww aauuddiitt for new formulae.
+
+       ----sskkiipp--nneeww--ssttrriicctt
+              Don’t pass ----ssttrriicctt to bbrreeww aauuddiitt for new formulae.
+
+       ----sskkiipp--ddeeppeennddeennttss
+              Don’t test any dependents.
+
+       ----sskkiipp--lliivveecchheecckk
+              Don’t test livecheck.
+
+       ----sskkiipp--rreeccuurrssiivvee--ddeeppeennddeennttss
+              Only test the direct dependents.
+
+       ----sskkiipp--cchheecckkssuumm--oonnllyy--aauuddiitt
+              Don’t audit checksum-only changes.
+
+       ----sskkiipp--ssttaabbllee--vveerrssiioonn--aauuddiitt
+              Don’t audit the stable version.
+
+       ----sskkiipp--rreevviissiioonn--aauuddiitt
+              Don’t audit the revision.
+
+       ----oonnllyy--cclleeaannuupp--bbeeffoorree
+              Only run the pre-cleanup step. Needs ----cclleeaannuupp.
+
+       ----oonnllyy--sseettuupp
+              Only run the local system setup check step.
+
+       ----oonnllyy--ttaapp--ssyynnttaaxx
+              Only run the tap syntax check step.
+
+       ----ssttaabbllee
+              Only run the tap syntax checks needed on stable brew.
+
+       ----oonnllyy--ffoorrmmuullaaee
+              Only run the formulae steps.
+
+       ----oonnllyy--ffoorrmmuullaaee--ddeetteecctt
+              Only run the formulae detection steps.
+
+       ----oonnllyy--ffoorrmmuullaaee--ddeeppeennddeennttss
+              Only run the formulae dependents steps.
+
+       ----oonnllyy--bboottttlleess--ffeettcchh
+              Only run the bottles fetch steps. This optional post-upload test
+              checks that all the bottles were uploaded correctly. It is not
+              run unless requested and only needs to be run on a single
+              machine. The bottle commit to be tested must be on the tested
+              branch.
+
+       ----oonnllyy--cclleeaannuupp--aafftteerr
+              Only run the post-cleanup step. Needs ----cclleeaannuupp.
+
+       ----tteessttiinngg--ffoorrmmuullaaee
+              Use these testing formulae rather than running the formulae
+              detection steps.
+
+       ----aaddddeedd--ffoorrmmuullaaee
+              Use these added formulae rather than running the formulae
+              detection steps.
+
+       ----ddeelleetteedd--ffoorrmmuullaaee
+              Use these deleted formulae rather than running the formulae
+              detection steps.
+
+       ----sskkiippppeedd--oorr--ffaaiilleedd--ffoorrmmuullaaee
+              Use these skipped or failed formulae from formulae steps for a
+              formulae dependents step.
+
+       ----tteesstteedd--ffoorrmmuullaaee
+              Use these tested formulae from formulae steps for a formulae
+              dependents step.
+
+   uunnaalliiaass _a_l_i_a_s [...]
+       Remove aliases.
+
+   wwhhiicchh--ffoorrmmuullaa [----eexxppllaaiinn] _c_o_m_m_a_n_d [...]
+       Show which formula(e) provides the given command.
+
+       ----eexxppllaaiinn
+              Output explanation of how to get _c_o_m_m_a_n_d by installing one of
+              the providing formulae.
+
+   wwhhiicchh--uuppddaattee [_o_p_t_i_o_n_s] [_d_a_t_a_b_a_s_e]
+       Database update for bbrreeww wwhhiicchh--ffoorrmmuullaa.
+
+       ----ssttaattss
+              Print statistics about the database contents (number of commands
+              and formulae, list of missing formulae).
+
+       ----ccoommmmiitt
+              Commit the changes using ggiitt.
+
+       ----uuppddaattee--eexxiissttiinngg
+              Update database entries with outdated formula versions.
+
+       ----iinnssttaallll--mmiissssiinngg
+              Install and update formulae that are missing from the database
+              and don’t have bottles.
+
+       ----eevvaall--aallll
+              Evaluate all installed taps, rather than just the core tap.
+
+       ----mmaaxx--ddoowwnnllooaaddss
+              Specify a maximum number of formulae to download and update.
+
+CCUUSSTTOOMM EEXXTTEERRNNAALL CCOOMMMMAANNDDSS
+       Homebrew, like ggiitt(1), supports external commands. These are executable
+       scripts that reside somewhere in the PPAATTHH, named bbrreeww--_c_m_d_n_a_m_e or
+       bbrreeww--_c_m_d_n_a_m_e..rrbb, which can be invoked like bbrreeww _c_m_d_n_a_m_e. This allows
+       you to create your own commands without modifying Homebrew’s internals.
+
+       Instructions for creating your own commands can be found in the docs:
+       <https://docs.brew.sh/External-Commands>
+
+SSPPEECCIIFFYYIINNGG FFOORRMMUULLAAEE
+       Many Homebrew commands accept one or more _f_o_r_m_u_l_a arguments. These
+       arguments can take several different forms:
+
+       •   The name of a formula: e.g. ggiitt, nnooddee, wwggeett.
+
+       •   The fully-qualified name of a tapped formula: Sometimes a formula
+           from a tapped repository may conflict with one in hhoommeebbrreeww//ccoorree.
+           You can still access these formulae by using a special syntax, e.g.
+           hhoommeebbrreeww//dduuppeess//vviimm or hhoommeebbrreeww//vveerrssiioonnss//nnooddee44.
+
+       •   An arbitrary file: Homebrew can install formulae from a local path.
+           It can point to either a formula file or a bottle. Prefix relative
+           paths with ..// to prevent them from being interpreted as a formula
+           or tap name.
+
+SSPPEECCIIFFYYIINNGG CCAASSKKSS
+       Many Homebrew Cask commands accept one or more _c_a_s_k arguments. These
+       can be specified the same way as the _f_o_r_m_u_l_a arguments described in
+       SSPPEECCIIFFYYIINNGG FFOORRMMUULLAAEE above.
+
+EENNVVIIRROONNMMEENNTT
+       Note that environment variables must have a value set to be detected.
+       For example, run eexxppoorrtt HHOOMMEEBBRREEWW__NNOO__IINNSSEECCUURREE__RREEDDIIRREECCTT==11 rather than
+       just eexxppoorrtt HHOOMMEEBBRREEWW__NNOO__IINNSSEECCUURREE__RREEDDIIRREECCTT.
+
+       HHOOMMEEBBRREEWW__** environment variables can also be set in Homebrew’s
+       environment files:
+
+       •   //eettcc//hhoommeebbrreeww//bbrreeww..eennvv (system-wide)
+
+       •   $$HHOOMMEEBBRREEWW__PPRREEFFIIXX//eettcc//hhoommeebbrreeww//bbrreeww..eennvv (prefix-specific)
+
+       •   $$XXDDGG__CCOONNFFIIGG__HHOOMMEE//hhoommeebbrreeww//bbrreeww..eennvv if $$XXDDGG__CCOONNFFIIGG__HHOOMMEE is set or
+           $$HHOOMMEE//..hhoommeebbrreeww//bbrreeww..eennvv otherwise (user-specific)
+
+       User-specific environment files take precedence over prefix-specific
+       files and prefix-specific files take precedence over system-wide files
+       (unless HHOOMMEEBBRREEWW__SSYYSSTTEEMM__EENNVV__TTAAKKEESS__PPRRIIOORRIITTYY is set, see below).
+
+       Note that these files do not support shell variable expansion e.g.
+       $$HHOOMMEE or command execution e.g. $$((ccaatt ffiillee)).
+
+       HHOOMMEEBBRREEWW__AALLLLOOWWEEDD__TTAAPPSS
+              A space-separated list of taps. Homebrew will refuse to install
+              a formula unless it and all of its dependencies are in an
+              official tap or in a tap on this list.
+
+       HHOOMMEEBBRREEWW__AAPPII__AAUUTTOO__UUPPDDAATTEE__SSEECCSS
+              Check Homebrew’s API for new formulae or cask data every
+              HHOOMMEEBBRREEWW__AAPPII__AAUUTTOO__UUPPDDAATTEE__SSEECCSS seconds. Alternatively, disable
+              API auto-update checks entirely with HHOOMMEEBBRREEWW__NNOO__AAUUTTOO__UUPPDDAATTEE.
+
+              _D_e_f_a_u_l_t_: 445500.
+
+       HHOOMMEEBBRREEWW__AAPPII__DDOOMMAAIINN
+              Use this URL as the download mirror for Homebrew JSON API. If
+              metadata files at that URL are temporarily unavailable, the
+              default API domain will be used as a fallback mirror.
+
+              _D_e_f_a_u_l_t_: hhttttppss::////ffoorrmmuullaaee..bbrreeww..sshh//aappii.
+
+       HHOOMMEEBBRREEWW__AARRCCHH
+              Linux only: Pass this value to a type name representing the
+              compiler’s --mmaarrcchh option.
+
+              _D_e_f_a_u_l_t_: nnaattiivvee.
+
+       HHOOMMEEBBRREEWW__AARRTTIIFFAACCTT__DDOOMMAAIINN
+              Prefix all download URLs, including those for bottles, with this
+              value. For example,
+              HHOOMMEEBBRREEWW__AARRTTIIFFAACCTT__DDOOMMAAIINN==hhttttpp::////llooccaallhhoosstt::88008800 will cause a
+              formula with the URL hhttttppss::////eexxaammppllee..ccoomm//ffoooo..ttaarr..ggzz to instead
+              download from
+              hhttttpp::////llooccaallhhoosstt::88008800//hhttttppss::////eexxaammppllee..ccoomm//ffoooo..ttaarr..ggzz. Bottle
+              URLs however, have their domain replaced with this prefix. This
+              results in e.g.
+              hhttttppss::////gghhccrr..iioo//vv22//hhoommeebbrreeww//ccoorree//ggeetttteexxtt//mmaanniiffeessttss//00..2211 to
+              instead be downloaded from
+              hhttttpp::////llooccaallhhoosstt::88008800//vv22//hhoommeebbrreeww//ccoorree//ggeetttteexxtt//mmaanniiffeessttss//00..2211
+
+       HHOOMMEEBBRREEWW__AARRTTIIFFAACCTT__DDOOMMAAIINN__NNOO__FFAALLLLBBAACCKK
+              If HHOOMMEEBBRREEWW__AARRTTIIFFAACCTT__DDOOMMAAIINN and
+              HHOOMMEEBBRREEWW__AARRTTIIFFAACCTT__DDOOMMAAIINN__NNOO__FFAALLLLBBAACCKK are both set, if the
+              request to HHOOMMEEBBRREEWW__AARRTTIIFFAACCTT__DDOOMMAAIINN fails then it Homebrew will
+              error rather than trying any other/default URLs.
+
+       HHOOMMEEBBRREEWW__AAUUTTOO__UUPPDDAATTEE__SSEECCSS
+              Run bbrreeww uuppddaattee once every HHOOMMEEBBRREEWW__AAUUTTOO__UUPPDDAATTEE__SSEECCSS seconds
+              before some commands, e.g. bbrreeww iinnssttaallll, bbrreeww uuppggrraaddee and bbrreeww
+              ttaapp. Alternatively, disable auto-update entirely with
+              HHOOMMEEBBRREEWW__NNOO__AAUUTTOO__UUPPDDAATTEE.
+
+              _D_e_f_a_u_l_t_: 8866440000 (24 hours), 33660000 (1 hour) if a developer command
+              has been run or 330000 (5 minutes) if HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLL__FFRROOMM__AAPPII
+              is set.
+
+       HHOOMMEEBBRREEWW__BBAATT
+              If set, use bbaatt for the bbrreeww ccaatt command.
+
+       HHOOMMEEBBRREEWW__BBAATT__CCOONNFFIIGG__PPAATTHH
+              Use this as the bbaatt configuration file.
+
+              _D_e_f_a_u_l_t_: $$BBAATT__CCOONNFFIIGG__PPAATTHH.
+
+       HHOOMMEEBBRREEWW__BBAATT__TTHHEEMMEE
+              Use this as the bbaatt theme for syntax highlighting.
+
+              _D_e_f_a_u_l_t_: $$BBAATT__TTHHEEMMEE.
+
+       HHOOMMEEBBRREEWW__BBOOOOTTSSNNAAPP
+              If set, use Bootsnap to speed up repeated bbrreeww calls. A no-op on
+              Linux when not using Homebrew’s vendored, relocatable Ruby.
+
+       HHOOMMEEBBRREEWW__BBOOTTTTLLEE__DDOOMMAAIINN
+              Use this URL as the download mirror for bottles. If bottles at
+              that URL are temporarily unavailable, the default bottle domain
+              will be used as a fallback mirror. For example,
+              HHOOMMEEBBRREEWW__BBOOTTTTLLEE__DDOOMMAAIINN==hhttttpp::////llooccaallhhoosstt::88008800 will cause all
+              bottles to download from the prefix hhttttpp::////llooccaallhhoosstt::88008800//. If
+              bottles are not available at HHOOMMEEBBRREEWW__BBOOTTTTLLEE__DDOOMMAAIINN they will be
+              downloaded from the default bottle domain.
+
+              _D_e_f_a_u_l_t_: hhttttppss::////gghhccrr..iioo//vv22//hhoommeebbrreeww//ccoorree.
+
+       HHOOMMEEBBRREEWW__BBRREEWW__GGIITT__RREEMMOOTTEE
+              Use this URL as the Homebrew/brew ggiitt(1) remote.
+
+              _D_e_f_a_u_l_t_: hhttttppss::////ggiitthhuubb..ccoomm//HHoommeebbrreeww//bbrreeww.
+
+       HHOOMMEEBBRREEWW__BBRROOWWSSEERR
+              Use this as the browser when opening project homepages.
+
+              _D_e_f_a_u_l_t_: $$BBRROOWWSSEERR or the OS’s default browser.
+
+       HHOOMMEEBBRREEWW__BBUUNNDDLLEE__UUSSEERR__CCAACCHHEE
+              If set, use this directory as the bbuunnddllee(1) user cache.
+
+       HHOOMMEEBBRREEWW__CCAACCHHEE
+              Use this directory as the download cache.
+
+              _D_e_f_a_u_l_t_: macOS: $$HHOOMMEE//LLiibbrraarryy//CCaacchheess//HHoommeebbrreeww, Linux:
+              $$XXDDGG__CCAACCHHEE__HHOOMMEE//HHoommeebbrreeww or $$HHOOMMEE//..ccaacchhee//HHoommeebbrreeww.
+
+       HHOOMMEEBBRREEWW__CCAASSKK__OOPPTTSS
+              Append these options to all ccaasskk commands. All ----**ddiirr options,
+              ----llaanngguuaaggee, ----rreeqquuiirree--sshhaa, ----nnoo--qquuaarraannttiinnee and ----nnoo--bbiinnaarriieess are
+              supported. For example, you might add something like the
+              following to your ~~//..pprrooffiillee, ~~//..bbaasshh__pprrooffiillee, or ~~//..zzsshheennvv:
+
+              eexxppoorrtt HHOOMMEEBBRREEWW__CCAASSKK__OOPPTTSS==""----aappppddiirr==~~//AApppplliiccaattiioonnss
+              ----ffoonnttddiirr==//LLiibbrraarryy//FFoonnttss""
+
+       HHOOMMEEBBRREEWW__CCLLEEAANNUUPP__MMAAXX__AAGGEE__DDAAYYSS
+              Cleanup all cached files older than this many days.
+
+              _D_e_f_a_u_l_t_: 112200.
+
+       HHOOMMEEBBRREEWW__CCLLEEAANNUUPP__PPEERRIIOODDIICC__FFUULLLL__DDAAYYSS
+              If set, bbrreeww iinnssttaallll, bbrreeww uuppggrraaddee and bbrreeww rreeiinnssttaallll will
+              cleanup all formulae when this number of days has passed.
+
+              _D_e_f_a_u_l_t_: 3300.
+
+       HHOOMMEEBBRREEWW__CCOOLLOORR
+              If set, force colour output on non-TTY outputs.
+
+       HHOOMMEEBBRREEWW__CCOORREE__GGIITT__RREEMMOOTTEE
+              Use this URL as the Homebrew/homebrew-core ggiitt(1) remote.
+
+              _D_e_f_a_u_l_t_: hhttttppss::////ggiitthhuubb..ccoomm//HHoommeebbrreeww//hhoommeebbrreeww--ccoorree.
+
+       HHOOMMEEBBRREEWW__CCUURRLLRRCC
+              If set to an absolute path (i.e. beginning with //), pass it with
+              ----ccoonnffiigg when invoking ccuurrll(1). If set but _n_o_t a valid path, do
+              not pass ----ddiissaabbllee, which disables the use of ..ccuurrllrrcc.
+
+       HHOOMMEEBBRREEWW__CCUURRLL__PPAATTHH
+              Linux only: Set this value to a new enough ccuurrll executable for
+              Homebrew to use.
+
+              _D_e_f_a_u_l_t_: ccuurrll.
+
+       HHOOMMEEBBRREEWW__CCUURRLL__RREETTRRIIEESS
+              Pass the given retry count to ----rreettrryy when invoking ccuurrll(1).
+
+              _D_e_f_a_u_l_t_: 33.
+
+       HHOOMMEEBBRREEWW__CCUURRLL__VVEERRBBOOSSEE
+              If set, pass ----vveerrbboossee when invoking ccuurrll(1).
+
+       HHOOMMEEBBRREEWW__DDEEBBUUGG
+              If set, always assume ----ddeebbuugg when running commands.
+
+       HHOOMMEEBBRREEWW__DDEEVVEELLOOPPEERR
+              If set, tweak behaviour to be more relevant for Homebrew
+              developers (active or budding) by e.g. turning warnings into
+              errors.
+
+       HHOOMMEEBBRREEWW__DDIISSAABBLLEE__DDEEBBRREEWW
+              If set, the interactive formula debugger available via ----ddeebbuugg
+              will be disabled.
+
+       HHOOMMEEBBRREEWW__DDIISSAABBLLEE__LLOOAADD__FFOORRMMUULLAA
+              If set, refuse to load formulae. This is useful when formulae
+              are not trusted (such as in pull requests).
+
+       HHOOMMEEBBRREEWW__DDIISSPPLLAAYY
+              Use this X11 display when opening a page in a browser, for
+              example with bbrreeww hhoommee. Primarily useful on Linux.
+
+              _D_e_f_a_u_l_t_: $$DDIISSPPLLAAYY.
+
+       HHOOMMEEBBRREEWW__DDIISSPPLLAAYY__IINNSSTTAALLLL__TTIIMMEESS
+              If set, print install times for each formula at the end of the
+              run.
+
+       HHOOMMEEBBRREEWW__DDOOCCKKEERR__RREEGGIISSTTRRYY__BBAASSIICC__AAUUTTHH__TTOOKKEENN
+              Use this base64 encoded username and password for authenticating
+              with a Docker registry proxying GitHub Packages. If
+              HHOOMMEEBBRREEWW__DDOOCCKKEERR__RREEGGIISSTTRRYY__TTOOKKEENN is set, it will be used instead.
+
+       HHOOMMEEBBRREEWW__DDOOCCKKEERR__RREEGGIISSTTRRYY__TTOOKKEENN
+              Use this bearer token for authenticating with a Docker registry
+              proxying GitHub Packages. Preferred over
+              HHOOMMEEBBRREEWW__DDOOCCKKEERR__RREEGGIISSTTRRYY__BBAASSIICC__AAUUTTHH__TTOOKKEENN.
+
+       HHOOMMEEBBRREEWW__EEDDIITTOORR
+              Use this editor when editing a single formula, or several
+              formulae in the same directory.
+
+              _N_o_t_e_: bbrreeww eeddiitt will open all of Homebrew as discontinuous files
+              and directories. Visual Studio Code can handle this correctly in
+              project mode, but many editors will do strange things in this
+              case.
+
+              _D_e_f_a_u_l_t_: $$EEDDIITTOORR or $$VVIISSUUAALL.
+
+       HHOOMMEEBBRREEWW__EEVVAALL__AALLLL
+              If set, bbrreeww commands evaluate all formulae and casks, executing
+              their arbitrary code, by default without requiring ----eevvaall--aallll.
+              Required to cache formula and cask descriptions.
+
+       HHOOMMEEBBRREEWW__FFAAIILL__LLOOGG__LLIINNEESS
+              Output this many lines of output on formula ssyysstteemm failures.
+
+              _D_e_f_a_u_l_t_: 1155.
+
+       HHOOMMEEBBRREEWW__FFOORRBBIIDDDDEENN__CCAASSKKSS
+              A space-separated list of casks. Homebrew will refuse to install
+              a cask if it or any of its dependencies is on this list.
+
+       HHOOMMEEBBRREEWW__FFOORRBBIIDDDDEENN__FFOORRMMUULLAAEE
+              A space-separated list of formulae. Homebrew will refuse to
+              install a formula or cask if it or any of its dependencies is on
+              this list.
+
+       HHOOMMEEBBRREEWW__FFOORRBBIIDDDDEENN__LLIICCEENNSSEESS
+              A space-separated list of SPDX license identifiers. Homebrew
+              will refuse to install a formula if it or any of its
+              dependencies has a license on this list.
+
+       HHOOMMEEBBRREEWW__FFOORRBBIIDDDDEENN__OOWWNNEERR
+              The person who has set any HHOOMMEEBBRREEWW__FFOORRBBIIDDDDEENN__** variables.
+
+              _D_e_f_a_u_l_t_: yyoouu.
+
+       HHOOMMEEBBRREEWW__FFOORRBBIIDDDDEENN__OOWWNNEERR__CCOONNTTAACCTT
+              How to contact the HHOOMMEEBBRREEWW__FFOORRBBIIDDDDEENN__OOWWNNEERR, if set and
+              necessary.
+
+       HHOOMMEEBBRREEWW__FFOORRBBIIDDDDEENN__TTAAPPSS
+              A space-separated list of taps. Homebrew will refuse to install
+              a formula if it or any of its dependencies is in a tap on this
+              list.
+
+       HHOOMMEEBBRREEWW__FFOORRBBIIDD__PPAACCKKAAGGEESS__FFRROOMM__PPAATTHHSS
+              If set, Homebrew will refuse to read formulae or casks provided
+              from file paths, e.g. bbrreeww iinnssttaallll ..//ppaacckkaaggee..rrbb.
+
+       HHOOMMEEBBRREEWW__FFOORRCCEE__BBRREEWWEEDD__CCAA__CCEERRTTIIFFIICCAATTEESS
+              If set, always use a Homebrew-installed ccaa--cceerrttiiffiiccaatteess rather
+              than the system version. Automatically set if the system version
+              is too old.
+
+       HHOOMMEEBBRREEWW__FFOORRCCEE__BBRREEWWEEDD__CCUURRLL
+              If set, always use a Homebrew-installed ccuurrll(1) rather than the
+              system version. Automatically set if the system version of ccuurrll
+              is too old.
+
+       HHOOMMEEBBRREEWW__FFOORRCCEE__BBRREEWWEEDD__GGIITT
+              If set, always use a Homebrew-installed ggiitt(1) rather than the
+              system version. Automatically set if the system version of ggiitt
+              is too old.
+
+       HHOOMMEEBBRREEWW__FFOORRCCEE__VVEENNDDOORR__RRUUBBYY
+              If set, always use Homebrew’s vendored, relocatable Ruby version
+              even if the system version of Ruby is new enough.
+
+       HHOOMMEEBBRREEWW__FFOORRMMUULLAA__BBUUIILLDD__NNEETTWWOORRKK
+              If set, controls network access to the sandbox for formulae
+              builds. Overrides any controls set through DSL usage inside
+              formulae. Must be aallllooww or ddeennyy. If no value is set through this
+              environment variable or DSL usage, the default behavior is
+              aallllooww.
+
+       HHOOMMEEBBRREEWW__FFOORRMMUULLAA__PPOOSSTTIINNSSTTAALLLL__NNEETTWWOORRKK
+              If set, controls network access to the sandbox for formulae
+              postinstall. Overrides any controls set through DSL usage inside
+              formulae. Must be aallllooww or ddeennyy. If no value is set through this
+              environment variable or DSL usage, the default behavior is
+              aallllooww.
+
+       HHOOMMEEBBRREEWW__FFOORRMMUULLAA__TTEESSTT__NNEETTWWOORRKK
+              If set, controls network access to the sandbox for formulae
+              test. Overrides any controls set through DSL usage inside
+              formulae. Must be aallllooww or ddeennyy. If no value is set through this
+              environment variable or DSL usage, the default behavior is
+              aallllooww.
+
+       HHOOMMEEBBRREEWW__GGIITTHHUUBB__AAPPII__TTOOKKEENN
+              Use this personal access token for the GitHub API, for features
+              such as bbrreeww sseeaarrcchh. You can create one at
+              <https://github.com/settings/tokens>. If set, GitHub will allow
+              you a greater number of API requests. For more information, see:
+              <https://docs.github.com/en/rest/overview/rate-limits-for-the-rest-api>
+
+              _N_o_t_e_: Homebrew doesn’t require permissions for any of the
+              scopes, but some developer commands may require additional
+              permissions.
+
+       HHOOMMEEBBRREEWW__GGIITTHHUUBB__PPAACCKKAAGGEESS__TTOOKKEENN
+              Use this GitHub personal access token when accessing the GitHub
+              Packages Registry (where bottles may be stored).
+
+       HHOOMMEEBBRREEWW__GGIITTHHUUBB__PPAACCKKAAGGEESS__UUSSEERR
+              Use this username when accessing the GitHub Packages Registry
+              (where bottles may be stored).
+
+       HHOOMMEEBBRREEWW__GGIITT__CCOOMMMMIITTTTEERR__EEMMAAIILL
+              Set the Git committer email to this value.
+
+       HHOOMMEEBBRREEWW__GGIITT__CCOOMMMMIITTTTEERR__NNAAMMEE
+              Set the Git committer name to this value.
+
+       HHOOMMEEBBRREEWW__GGIITT__EEMMAAIILL
+              Set the Git author name and, if HHOOMMEEBBRREEWW__GGIITT__CCOOMMMMIITTTTEERR__EEMMAAIILL is
+              unset, committer email to this value.
+
+       HHOOMMEEBBRREEWW__GGIITT__NNAAMMEE
+              Set the Git author name and, if HHOOMMEEBBRREEWW__GGIITT__CCOOMMMMIITTTTEERR__NNAAMMEE is
+              unset, committer name to this value.
+
+       HHOOMMEEBBRREEWW__GGIITT__PPAATTHH
+              Linux only: Set this value to a new enough ggiitt executable for
+              Homebrew to use.
+
+              _D_e_f_a_u_l_t_: ggiitt.
+
+       HHOOMMEEBBRREEWW__IINNSSTTAALLLL__BBAADDGGEE
+              Print this text before the installation summary of each
+              successful build.
+
+              _D_e_f_a_u_l_t_: The “Beer Mug” emoji.
+
+       HHOOMMEEBBRREEWW__LLIIVVEECCHHEECCKK__WWAATTCCHHLLIISSTT
+              Consult this file for the list of formulae to check by default
+              when no formula argument is passed to bbrreeww lliivveecchheecckk.
+
+              _D_e_f_a_u_l_t_: $$XXDDGG__CCOONNFFIIGG__HHOOMMEE//hhoommeebbrreeww//lliivveecchheecckk__wwaattcchhlliisstt..ttxxtt if
+              $$XXDDGG__CCOONNFFIIGG__HHOOMMEE is set or
+              $$HHOOMMEE//..hhoommeebbrreeww//lliivveecchheecckk__wwaattcchhlliisstt..ttxxtt otherwise.
+
+       HHOOMMEEBBRREEWW__LLOOCCKK__CCOONNTTEEXXTT
+              If set, Homebrew will add this output as additional context for
+              locking errors. This is useful when running bbrreeww in the
+              background.
+
+       HHOOMMEEBBRREEWW__LLOOGGSS
+              Use this directory to store log files.
+
+              _D_e_f_a_u_l_t_: macOS: $$HHOOMMEE//LLiibbrraarryy//LLooggss//HHoommeebbrreeww, Linux:
+              $$XXDDGG__CCAACCHHEE__HHOOMMEE//HHoommeebbrreeww//LLooggss or $$HHOOMMEE//..ccaacchhee//HHoommeebbrreeww//LLooggss.
+
+       HHOOMMEEBBRREEWW__MMAAKKEE__JJOOBBSS
+              Use this value as the number of parallel jobs to run when
+              building with mmaakkee(1).
+
+              _D_e_f_a_u_l_t_: The number of available CPU cores.
+
+       HHOOMMEEBBRREEWW__NNOO__AANNAALLYYTTIICCSS
+              If set, do not send analytics. Google Analytics were destroyed.
+              For more information, see: <https://docs.brew.sh/Analytics>
+
+       HHOOMMEEBBRREEWW__NNOO__AAUUTTOORREEMMOOVVEE
+              If set, calls to bbrreeww cclleeaannuupp and bbrreeww uunniinnssttaallll will not
+              automatically remove unused formula dependents.
+
+       HHOOMMEEBBRREEWW__NNOO__AAUUTTOO__UUPPDDAATTEE
+              If set, do not automatically update before running some
+              commands, e.g. bbrreeww iinnssttaallll, bbrreeww uuppggrraaddee and bbrreeww ttaapp.
+              Preferably, run this less often by setting
+              HHOOMMEEBBRREEWW__AAUUTTOO__UUPPDDAATTEE__SSEECCSS to a value higher than the default.
+              Note that setting this and e.g. tapping new taps may result in a
+              broken configuration. Please ensure you always run bbrreeww uuppddaattee
+              before reporting any issues.
+
+       HHOOMMEEBBRREEWW__NNOO__BBOOOOTTSSNNAAPP
+              If set, do not use Bootsnap to speed up repeated bbrreeww calls.
+
+       HHOOMMEEBBRREEWW__NNOO__CCLLEEAANNUUPP__FFOORRMMUULLAAEE
+              A comma-separated list of formulae. Homebrew will refuse to
+              clean up or autoremove a formula if it appears on this list.
+
+       HHOOMMEEBBRREEWW__NNOO__CCOOLLOORR
+              If set, do not print text with colour added.
+
+              _D_e_f_a_u_l_t_: $$NNOO__CCOOLLOORR.
+
+       HHOOMMEEBBRREEWW__NNOO__EEMMOOJJII
+              If set, do not print HHOOMMEEBBRREEWW__IINNSSTTAALLLL__BBAADDGGEE on a successful
+              build.
+
+       HHOOMMEEBBRREEWW__NNOO__EENNVV__HHIINNTTSS
+              If set, do not print any hints about changing Homebrew’s
+              behaviour with environment variables.
+
+       HHOOMMEEBBRREEWW__NNOO__GGIITTHHUUBB__AAPPII
+              If set, do not use the GitHub API, e.g. for searches or fetching
+              relevant issues after a failed install.
+
+       HHOOMMEEBBRREEWW__NNOO__IINNSSEECCUURREE__RREEDDIIRREECCTT
+              If set, forbid redirects from secure HTTPS to insecure HTTP.
+
+              _N_o_t_e_: while ensuring your downloads are fully secure, this is
+              likely to cause from-source SourceForge, some GNU & GNOME-hosted
+              formulae to fail to download.
+
+       HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLLEEDD__DDEEPPEENNDDEENNTTSS__CCHHEECCKK
+              If set, do not check for broken linkage of dependents or
+              outdated dependents after installing, upgrading or reinstalling
+              formulae. This will result in fewer dependents (and their
+              dependencies) being upgraded or reinstalled but may result in
+              more breakage from running bbrreeww iinnssttaallll _f_o_r_m_u_l_a or bbrreeww uuppggrraaddee
+              _f_o_r_m_u_l_a.
+
+       HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLL__CCLLEEAANNUUPP
+              If set, bbrreeww iinnssttaallll, bbrreeww uuppggrraaddee and bbrreeww rreeiinnssttaallll will never
+              automatically cleanup installed/upgraded/reinstalled formulae or
+              all formulae every HHOOMMEEBBRREEWW__CCLLEEAANNUUPP__PPEERRIIOODDIICC__FFUULLLL__DDAAYYSS days.
+              Alternatively, HHOOMMEEBBRREEWW__NNOO__CCLLEEAANNUUPP__FFOORRMMUULLAAEE allows specifying
+              specific formulae to not clean up.
+
+       HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLL__FFRROOMM__AAPPII
+              If set, do not install formulae and casks in homebrew/core and
+              homebrew/cask taps using Homebrew’s API and instead use (large,
+              slow) local checkouts of these repositories.
+
+       HHOOMMEEBBRREEWW__NNOO__IINNSSTTAALLLL__UUPPGGRRAADDEE
+              If set, bbrreeww iinnssttaallll _f_o_r_m_u_l_a_|_c_a_s_k will not upgrade _f_o_r_m_u_l_a_|_c_a_s_k
+              if it is installed but outdated.
+
+       HHOOMMEEBBRREEWW__NNOO__UUPPDDAATTEE__RREEPPOORRTT__NNEEWW
+              If set, bbrreeww uuppddaattee will not show the list of newly added
+              formulae/casks.
+
+       HHOOMMEEBBRREEWW__NNOO__VVEERRIIFFYY__AATTTTEESSTTAATTIIOONNSS
+              If set, Homebrew not verify cryptographic attestations of build
+              provenance for bottles from homebrew-core.
+
+       HHOOMMEEBBRREEWW__PPIIPP__IINNDDEEXX__UURRLL
+              If set, bbrreeww iinnssttaallll _f_o_r_m_u_l_a will use this URL to download PyPI
+              package resources.
+
+              _D_e_f_a_u_l_t_: hhttttppss::////ppyyppii..oorrgg//ssiimmppllee.
+
+       HHOOMMEEBBRREEWW__PPRRYY
+              If set, use Pry for the bbrreeww iirrbb command.
+
+       HHOOMMEEBBRREEWW__SSIIMMUULLAATTEE__MMAACCOOSS__OONN__LLIINNUUXX
+              If set, running Homebrew on Linux will simulate certain macOS
+              code paths. This is useful when auditing macOS formulae while on
+              Linux.
+
+       HHOOMMEEBBRREEWW__SSKKIIPP__OORR__LLAATTEERR__BBOOTTTTLLEESS
+              If set along with HHOOMMEEBBRREEWW__DDEEVVEELLOOPPEERR, do not use bottles from
+              older versions of macOS. This is useful in development on new
+              macOS versions.
+
+       HHOOMMEEBBRREEWW__SSOORRBBEETT__RRUUNNTTIIMMEE
+              If set, enable runtime typechecking using Sorbet. Set by default
+              for HHOOMMEEBBRREEWW__DDEEVVEELLOOPPEERR or when running some developer commands.
+
+       HHOOMMEEBBRREEWW__SSSSHH__CCOONNFFIIGG__PPAATTHH
+              If set, Homebrew will use the given config file instead of
+              ~~//..sssshh//ccoonnffiigg when fetching Git repositories over SSH.
+
+              _D_e_f_a_u_l_t_: $$HHOOMMEE//..sssshh//ccoonnffiigg
+
+       HHOOMMEEBBRREEWW__SSUUDDOO__TTHHRROOUUGGHH__SSUUDDOO__UUSSEERR
+              If set, Homebrew will use the SSUUDDOO__UUSSEERR environment variable to
+              define the user to ssuuddoo(8) through when running ssuuddoo(8).
+
+       HHOOMMEEBBRREEWW__SSVVNN
+              Use this as the ssvvnn(1) binary.
+
+              _D_e_f_a_u_l_t_: A Homebrew-built Subversion (if installed), or the
+              system-provided binary.
+
+       HHOOMMEEBBRREEWW__SSYYSSTTEEMM__EENNVV__TTAAKKEESS__PPRRIIOORRIITTYY
+              If set in Homebrew’s system-wide environment file
+              (//eettcc//hhoommeebbrreeww//bbrreeww..eennvv), the system-wide environment file will
+              be loaded last to override any prefix or user settings.
+
+       HHOOMMEEBBRREEWW__TTEEMMPP
+              Use this path as the temporary directory for building packages.
+              Changing this may be needed if your system temporary directory
+              and Homebrew prefix are on different volumes, as macOS has
+              trouble moving symlinks across volumes when the target does not
+              yet exist. This issue typically occurs when using FileVault or
+              custom SSD configurations.
+
+              _D_e_f_a_u_l_t_: macOS: //pprriivvaattee//ttmmpp, Linux: //ttmmpp.
+
+       HHOOMMEEBBRREEWW__UUPPDDAATTEE__TTOO__TTAAGG
+              If set, always use the latest stable tag (even if developer
+              commands have been run).
+
+       HHOOMMEEBBRREEWW__UUPPGGRRAADDEE__GGRREEEEDDYY
+              If set, pass ----ggrreeeeddyy to all cask upgrade commands.
+
+       HHOOMMEEBBRREEWW__VVEERRBBOOSSEE
+              If set, always assume ----vveerrbboossee when running commands.
+
+       HHOOMMEEBBRREEWW__VVEERRBBOOSSEE__UUSSIINNGG__DDOOTTSS
+              If set, verbose output will print a .. no more than once a
+              minute. This can be useful to avoid long-running Homebrew
+              commands being killed due to no output.
+
+       HHOOMMEEBBRREEWW__VVEERRIIFFYY__AATTTTEESSTTAATTIIOONNSS
+              If set, Homebrew will use the gghh tool to verify cryptographic
+              attestations of build provenance for bottles from homebrew-core.
+
+       SSUUDDOO__AASSKKPPAASSSS
+              If set, pass the --AA option when calling ssuuddoo(8).
+
+       aallll__pprrooxxyy
+              Use this SOCKS5 proxy for ccuurrll(1), ggiitt(1) and ssvvnn(1) when
+              downloading through Homebrew.
+
+       ffttpp__pprrooxxyy
+              Use this FTP proxy for ccuurrll(1), ggiitt(1) and ssvvnn(1) when
+              downloading through Homebrew.
+
+       hhttttpp__pprrooxxyy
+              Use this HTTP proxy for ccuurrll(1), ggiitt(1) and ssvvnn(1) when
+              downloading through Homebrew.
+
+       hhttttppss__pprrooxxyy
+              Use this HTTPS proxy for ccuurrll(1), ggiitt(1) and ssvvnn(1) when
+              downloading through Homebrew.
+
+       nnoo__pprrooxxyy
+              A comma-separated list of hostnames and domain names excluded
+              from proxying by ccuurrll(1), ggiitt(1) and ssvvnn(1) when downloading
+              through Homebrew.
+
+UUSSIINNGG HHOOMMEEBBRREEWW BBEEHHIINNDD AA PPRROOXXYY
+       Set the hhttttpp__pprrooxxyy, hhttttppss__pprrooxxyy, aallll__pprrooxxyy, ffttpp__pprrooxxyy and/or nnoo__pprrooxxyy
+       environment variables documented above.
+
+       For example, to use an unauthenticated HTTP or SOCKS5 proxy:
+
+           export http_proxy=http://$HOST:$PORT
+
+           export all_proxy=socks5://$HOST:$PORT
+
+       And for an authenticated HTTP proxy:
+
+           export http_proxy=http://$USER:$PASSWORD@$HOST:$PORT
+
+SSEEEE AALLSSOO
+       Homebrew Documentation: <https://docs.brew.sh>
+
+       Homebrew API: <https://rubydoc.brew.sh>
+
+       ggiitt(1), ggiitt--lloogg(1)
+
+AAUUTTHHOORRSS
+       Homebrew’s Project Leader is Mike McQuaid.
+
+       Homebrew’s Project Leadership Committee is Colin Dean, Issy Long, Mike
+       McQuaid, Patrick Linnane and Vanessa Gennarelli.
+
+       Homebrew’s Technical Steering Committee is Bo Anderson, FX Coudert,
+       Michka Popoff, Mike McQuaid and Rylan Polster.
+
+       Homebrew’s maintainers are Alexander Bayandin, Bevan Kay, Bo Anderson,
+       Branch Vincent, Caleb Xu, Carlo Cabrera, Daeho Ro, Douglas
+       Eichelberger, Dustin Rodrigues, Eric Knibbe, FX Coudert, Issy Long,
+       Justin Krehel, Klaus Hipp, Markus Reiter, Michael Cho, Michka Popoff,
+       Mike McQuaid, Nanda H Krishna, Patrick Linnane, Rui Chen, Ruoyu Zhong,
+       Rylan Polster, Sam Ford, Sean Molenaar, Thierry Moisan, Timothy Sutton,
+       William Woodruff and Štefan Baebler.
+
+       Former maintainers with significant contributions include Miccal
+       Matthews, Misty De Méo, Shaun Jackman, Vítor Galvão, Claudia
+       Pellegrino, Seeker, Jan Viljanen, JCount, commitay, Dominyk Tiller, Tim
+       Smith, Baptiste Fontaine, Xu Cheng, Martin Afanasjew, Brett Koonce,
+       Charlie Sharpsteen, Jack Nagel, Adam Vandenberg, Andrew Janke, Alex
+       Dunn, neutric, Tomasz Pajor, Uladzislau Shablinski, Alyssa Ross,
+       ilovezfs, Chongyu Zhu and Homebrew’s creator: Max Howell.
+
+BBUUGGSS
+       See our issues on GitHub:
+
+       HHoommeebbrreeww//bbrreeww
+              <https://github.com/Homebrew/brew/issues>
+
+       HHoommeebbrreeww//hhoommeebbrreeww--ccoorree
+              <https://github.com/Homebrew/homebrew-core/issues>
+
+       HHoommeebbrreeww//hhoommeebbrreeww--ccaasskk
+              <https://github.com/Homebrew/homebrew-cask/issues>
+
+Homebrew                         November 2024                         BREW(1)

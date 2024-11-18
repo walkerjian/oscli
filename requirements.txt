@@ -1,2 +1,3 @@
 rich      # For colorful terminal output
 pytest    # For testing
+beautifulsoup4
